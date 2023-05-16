@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { createDeck } from '../common/Deck';
-import { redealButtonPressed, alertOtherPlayer, doneButtonPressed } from '../common/Buttons';
+import { redealButtonPressed } from '../common/Buttons';
 
 const GameDetails1 = ({ gameType }) => {
+  const [game, setGame] = useState([]);
   
   useEffect(() => {
     let workDeck = [];
@@ -12,36 +13,84 @@ const GameDetails1 = ({ gameType }) => {
   }, []);
 
   function initializeGame(workDeck) {
-    const numberOfCards = 10;
-    workGame.hand = [];
+    let workGame = JSON.parse(JSON.stringify(game));
+    workGame.pile1 = [];
+    workGame.pile2 = [];
+    workGame.pile3 = [];
+    workGame.pile4 = [];
+    workGame.pile5 = [];
+    workGame.pile6 = [];
+    workGame.pile7 = [];
+    workGame.aceSpades = [];
+    workGame.aceHearts = [];
+    workGame.aceDiamonds = [];
+    workGame.aceClubs = [];
     workGame.discardPile = [];
-    workGame.gameDone = false;
-    workGame.messages[0].msg = 'Not your turn';
+    workGame.msg = 'Start Game';
     let card;
     let i = 0;
-    while (i < numberOfCards) {
+    while (i < 1) {
       card = workDeck.pop();
-      workGame.hand.push(card);
+      workGame.pile1.push(card);
       i++;
     }
-    card = workDeck.pop();
-    workGame.discardPile.push(card);
+    i = 0;
+    while (i < 2) {
+      card = workDeck.pop();
+      workGame.pile2.push(card);
+      i++;
+    }
+    i = 0;
+    while (i < 3) {
+      card = workDeck.pop();
+      workGame.pile3.push(card);
+      i++;
+    }
+    i = 0;
+    while (i < 4) {
+      card = workDeck.pop();
+      workGame.pile4.push(card);
+      i++;
+    }
+    i = 0;
+    while (i < 5) {
+      card = workDeck.pop();
+      workGame.pile5.push(card);
+      i++;
+    }
+    i = 0;
+    while (i < 6) {
+      card = workDeck.pop();
+      workGame.pile6.push(card);
+      i++;
+    }
+    i = 0;
+    while (i < 7) {
+      card = workDeck.pop();
+      workGame.pile7.push(card);
+      i++;
+    }
     workGame.remDeck = workDeck;
-    updateGame(workGame, workMsgOn);
+    setGame(workGame);
   }
 
   function drawCardButtonPressed() {
+    const numberOfCards = 3;
+    let card;
     let workGame = JSON.parse(JSON.stringify(game));
     let workDeck = JSON.parse(JSON.stringify(workGame.remDeck));
+    let i = 0;
+    while (i < numberOfCards && workDeck.length > 0) {
+      card = workDeck.pop();
+      workGame.discardPile.push(card);
+      i++;
+    }
     if (workDeck.length < 1) return;
     if (workDeck.length < 2) {
-      workGame.messages[0].msg = 'Deck exhausted, game is stalemated';
-      workGame.messages[1].msg = 'Deck exhausted, game is stalemated';
+      workGame.msg = 'Deck exhausted';
     }
-    let card = workDeck.pop();
-    workGame.hand.push(card);
     workGame.remDeck = workDeck;
-    updateGame(workGame, workMsgOn);
+    setGame(workGame);
   }
 
   const onDragEnd = result => {
@@ -61,7 +110,7 @@ const GameDetails1 = ({ gameType }) => {
     // (NOTE: only allowed for the player whose turn it is)
     let add;
     let workGame = JSON.parse(JSON.stringify(game));
-    if (workGame.whoseTurn === id) {
+    
       // Source Logic - remove card
       if (source.droppableId === 'HAND') {
         add = workGame.hand.slice(source.index, source.index + 1);
@@ -77,78 +126,32 @@ const GameDetails1 = ({ gameType }) => {
       } else if (destination.droppableId === 'DISCARD') {
         workGame.discardPile.splice(workGame.discardPile.length, 0, ...add);
       }
-  }
+  
 
     // update state
-    updateGame(workGame, workMsgOn);
+    setGame(workGame);
   };
 
-//<button className="game-startButton" onClick={() => redealButtonPressed(initializeGame)}>
-
+  if (game.discardPile === undefined ) return
   return (
     <div className="game-content">
       <DragDropContext onDragEnd={onDragEnd}>
         <div className="game-header1">
           <span>** Game 1 - Gin Rummy **</span>
-          {contacts
-            .filter((item, index, contacts) => item.id === player2)
-            .map(contact => (
-              <span key={contact.id} className="game-opponent">
-                Your opponent is: {contact.name}
-              </span>
-            ))}
         </div>
-
         <div className="game-header2">
           <button className="game-startButton" onClick={() => redealButtonPressed(initializeGame)}>
             Redeal
           </button>
-          {workMsgOn && <span className="game-chatButton">{alertMessage}</span>}
-          <button className="game-startButton" onClick={() => alertOtherPlayer(workMsgOn, setMessageOn, updateGame, game)}>
-            Chat ?
-          </button>
         </div>
-
-        {id === game.messages[0].player ? (
-          <div className="game-msg">{game.messages[0].msg}</div>
-        ) : (
-          <div className="game-msg">{game.messages[1].msg}</div>
-        )}
-
-        <div className="game-header3">
-          <div>
-            {!game.gameDone ? (
-              <button className="game-oppButton" onClick={() => setPlayer2('')}>
-                Opponent
-              </button>
-            ) : null}
-            {game.whoseTurn === id && !game.gameDone ? (
-              <button className="game-startButton" onClick={() => doneButtonPressed(game, id, player2, updateGame, workMsgOn)}>
-                Done
-              </button>
-            ) : null}
-          </div>
-          <div>
-            {game.whoseTurn === id && !game.gameDone ? (
-              <button className="game-startButton" onClick={knockButtonPressed}>
-                Knock
-              </button>
-            ) : null}
-            {game.whoseTurn === id && !game.gameDone ? (
-              <button className="game-startButton" onClick={ginButtonPressed}>
-                Gin
-              </button>
-            ) : null}
-          </div>
-        </div>
-
-        {game.gameDone ? (
+          <div className="game-msg">{game.msg}</div>
+        
           <Droppable droppableId="HAND2" direction="horizontal">
             {provided => (
               <div ref={provided.innerRef} {...provided.droppableProps}>
                 <div className="game-body">
-                  <span>Opponent</span>
-                  {game.hand2.map((item, index) => (
+                  
+                  {game.pile1.map((item, index) => (
                     <Draggable draggableId={item.code} index={index} key={item.code}>
                       {provided => (
                         <img
@@ -167,20 +170,18 @@ const GameDetails1 = ({ gameType }) => {
               </div>
             )}
           </Droppable>
-        ) : null}
+        
 
         <Droppable droppableId="DISCARD" direction="horizontal">
           {provided => (
             <div ref={provided.innerRef} {...provided.droppableProps}>
               <div className="game-body-discard">
-              <span>Click to draw card =></span>
-                { game.whoseTurn === id && !game.gameDone
-                  ? <div onClick={drawCardButtonPressed}>
+              <span>Click =></span>
+                
+                   <div onClick={drawCardButtonPressed}>
                       <img src={require('../cards-other/BACK.png')} alt="" className="game-card" /> 
                     </div> 
-                  : <div>
-                      <img src={require('../cards-other/BACK.png')} alt="" className="game-card" /> 
-                    </div> }       
+                        
                 {game.discardPile
                   .filter((item, index, discardPile) => index === discardPile.length - 1)
                   .map((item, index) => (
@@ -207,8 +208,7 @@ const GameDetails1 = ({ gameType }) => {
           {provided => (
             <div ref={provided.innerRef} {...provided.droppableProps}>
               <div className="game-body">
-                <span>Your hand</span>
-                {game.hand.map((item, index) => (
+                {game.pile2.map((item, index) => (
                   <Draggable draggableId={item.code} index={index} key={item.code}>
                     {provided => (
                       <img
