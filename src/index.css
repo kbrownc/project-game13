@@ -29,6 +29,8 @@ button {
   width: 70px;
   height: 100px;
   margin: 5px;
+  border: solid;
+  padding: 5px;
 }
 .game-body {
   display: flex;
