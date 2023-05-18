@@ -5,7 +5,7 @@ import { redealButtonPressed } from '../common/Buttons';
 
 const GameDetails1 = ({ gameType }) => {
   const [game, setGame] = useState([]);
-  
+
   useEffect(() => {
     let workDeck = [];
     createDeck(workDeck);
@@ -21,12 +21,12 @@ const GameDetails1 = ({ gameType }) => {
     workGame.pile5 = [];
     workGame.pile6 = [];
     workGame.pile7 = [];
-    workGame.aceSpades = [];
-    workGame.aceHearts = [];
-    workGame.aceDiamonds = [];
-    workGame.aceClubs = [];
-    workGame.discardPile = [];
-    workGame.msg = 'Start Game';
+    workGame.aceSpades = [{cardValue: 7, code: "7-D", faceValue: "7", suit: "D"}];
+    workGame.aceHearts = [{cardValue: 7, code: "7-D", faceValue: "7", suit: "D"}];
+    workGame.aceDiamonds = [{cardValue: 7, code: "7-D", faceValue: "7", suit: "D"}];
+    workGame.aceClubs = [{cardValue: 7, code: "7-D", faceValue: "7", suit: "D"}];
+    workGame.discardPile = [{cardValue: 7, code: "7-D", faceValue: "7", suit: "D"}];
+    workGame.msg = '*************Start Game';
     let card;
     let i = 0;
     while (i < 1) {
@@ -77,8 +77,9 @@ const GameDetails1 = ({ gameType }) => {
   function drawCardButtonPressed() {
     const numberOfCards = 3;
     let card;
-    let workGame = JSON.parse(JSON.stringify(game));
-    let workDeck = JSON.parse(JSON.stringify(workGame.remDeck));
+    //let workGame = JSON.parse(JSON.stringify(game));
+    let workGame = structuredClone(game);
+    let workDeck = JSON.parse(JSON.stringify(game.remDeck));
     let i = 0;
     while (i < numberOfCards && workDeck.length > 0) {
       card = workDeck.pop();
@@ -106,36 +107,35 @@ const GameDetails1 = ({ gameType }) => {
       return;
     }
 
-    // moving cards within and between your hand and the DISCARD pile 
-    // (NOTE: only allowed for the player whose turn it is)
+    // moving cards within and between piles and the DISCARD pile
     let add;
     let workGame = JSON.parse(JSON.stringify(game));
-    
-      // Source Logic - remove card
-      if (source.droppableId === 'HAND') {
-        add = workGame.hand.slice(source.index, source.index + 1);
-        workGame.hand.splice(source.index, 1);
-      } else if (source.droppableId === 'DISCARD') {
-        add = workGame.discardPile.slice(workGame.discardPile.length - 1);
-        workGame.discardPile.splice(workGame.discardPile.length - 1, 1);
-      }
 
-      // Destination Logic
-      if (destination.droppableId === 'HAND') {
-        workGame.hand.splice(destination.index, 0, ...add);
-      } else if (destination.droppableId === 'DISCARD') {
-        workGame.discardPile.splice(workGame.discardPile.length, 0, ...add);
-      }
-  
+    // Source Logic - remove card
+    if (source.droppableId === 'HAND') {
+      add = workGame.hand.slice(source.index, source.index + 1);
+      workGame.hand.splice(source.index, 1);
+    } else if (source.droppableId === 'DISCARD') {
+      add = workGame.discardPile.slice(workGame.discardPile.length - 1);
+      workGame.discardPile.splice(workGame.discardPile.length - 1, 1);
+    }
+
+    // Destination Logic
+    if (destination.droppableId === 'HAND') {
+      workGame.hand.splice(destination.index, 0, ...add);
+    } else if (destination.droppableId === 'DISCARD') {
+      workGame.discardPile.splice(workGame.discardPile.length, 0, ...add);
+    }
 
     // update state
     setGame(workGame);
   };
 
-  if (game.discardPile === undefined ) return
+  if (game.discardPile === undefined) return;
   return (
     <div className="game-content">
       <DragDropContext onDragEnd={onDragEnd}>
+
         <div className="game-header1">
           <span>** Game 1 - Gin Rummy **</span>
         </div>
@@ -144,44 +144,249 @@ const GameDetails1 = ({ gameType }) => {
             Redeal
           </button>
         </div>
-          <div className="game-msg">{game.msg}</div>
-        
-          <Droppable droppableId="HAND2" direction="horizontal">
-            {provided => (
-              <div ref={provided.innerRef} {...provided.droppableProps}>
-                <div className="game-body">
-                  
-                  {game.pile1.map((item, index) => (
-                    <Draggable draggableId={item.code} index={index} key={item.code}>
-                      {provided => (
-                        <img
-                          className="game-card"
-                          src={require(`../cards/${item.code}.png`)}
-                          alt=""
-                          {...provided.draggableProps}
-                          ref={provided.innerRef}
-                          {...provided.dragHandleProps}
-                        />
-                      )}
-                    </Draggable>
-                  ))}
-                  {provided.placeholder}
-                </div>
+        <div className="game-msg">{game.msg}</div>
+
+        <Droppable droppableId="ACEPILE" direction="horizontal">
+          {provided => (
+            <div className="game-body" ref={provided.innerRef} {...provided.droppableProps}>
+              <div className="game-body">
+                {game.aceSpades
+                .filter((item, index, aceSpades) => index === aceSpades.length - 1)
+                .map((item, index) => (
+                  <Draggable draggableId={item.code} index={index} key={item.code}>
+                    {provided => (
+                      <img
+                        className="game-card"
+                        src={require(`../cards/${item.code}.png`)}
+                        alt=""
+                        {...provided.draggableProps}
+                        ref={provided.innerRef}
+                        {...provided.dragHandleProps}
+                      />
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
               </div>
-            )}
-          </Droppable>
-        
+
+              <div className="game-body">
+                {game.aceHearts
+                .filter((item, index, aceHearts) => index === aceHearts.length - 1)
+                .map((item, index) => (
+                  <Draggable draggableId={item.code} index={index} key={item.code}>
+                    {provided => (
+                      <img
+                        className="game-card"
+                        src={require(`../cards/${item.code}.png`)}
+                        alt=""
+                        {...provided.draggableProps}
+                        ref={provided.innerRef}
+                        {...provided.dragHandleProps}
+                      />
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+
+              <div className="game-body">
+                {game.aceDiamonds
+                .filter((item, index, aceDiamonds) => index === aceDiamonds.length - 1)
+                .map((item, index) => (
+                  <Draggable draggableId={item.code} index={index} key={item.code}>
+                    {provided => (
+                      <img
+                        className="game-card"
+                        src={require(`../cards/${item.code}.png`)}
+                        alt=""
+                        {...provided.draggableProps}
+                        ref={provided.innerRef}
+                        {...provided.dragHandleProps}
+                      />
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+
+              <div className="game-body">
+                {game.aceClubs
+                .filter((item, index, aceClubs) => index === aceClubs.length - 1)
+                .map((item, index) => (
+                  <Draggable draggableId={item.code} index={index} key={item.code}>
+                    {provided => (
+                      <img
+                        className="game-card"
+                        src={require(`../cards/${item.code}.png`)}
+                        alt=""
+                        {...provided.draggableProps}
+                        ref={provided.innerRef}
+                        {...provided.dragHandleProps}
+                      />
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+
+              </div>
+          )}
+        </Droppable>
+
+        <Droppable droppableId="PILE" direction="horizontal">
+          {provided => (
+            <div className="game-body" ref={provided.innerRef} {...provided.droppableProps}>
+              <div className="game-body">
+                {game.pile1
+                .filter((item, index, pile1) => index === pile1.length - 1)
+                .map((item, index) => (
+                  <Draggable draggableId={item.code} index={index} key={item.code}>
+                    {provided => (
+                      <img
+                        className="game-card"
+                        src={require(`../cards/${item.code}.png`)}
+                        alt=""
+                        {...provided.draggableProps}
+                        ref={provided.innerRef}
+                        {...provided.dragHandleProps}
+                      />
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+
+              <div className="game-body">
+                {game.pile2
+                .filter((item, index, pile2) => index === pile2.length - 1)
+                .map((item, index) => (
+                  <Draggable draggableId={item.code} index={index} key={item.code}>
+                    {provided => (
+                      <img
+                        className="game-card"
+                        src={require(`../cards/${item.code}.png`)}
+                        alt=""
+                        {...provided.draggableProps}
+                        ref={provided.innerRef}
+                        {...provided.dragHandleProps}
+                      />
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+
+              <div className="game-body">
+                {game.pile3
+                .filter((item, index, pile3) => index === pile3.length - 1)
+                .map((item, index) => (
+                  <Draggable draggableId={item.code} index={index} key={item.code}>
+                    {provided => (
+                      <img
+                        className="game-card"
+                        src={require(`../cards/${item.code}.png`)}
+                        alt=""
+                        {...provided.draggableProps}
+                        ref={provided.innerRef}
+                        {...provided.dragHandleProps}
+                      />
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+
+              <div className="game-body">
+                {game.pile4
+                .filter((item, index, pile4) => index === pile4.length - 1)
+                .map((item, index) => (
+                  <Draggable draggableId={item.code} index={index} key={item.code}>
+                    {provided => (
+                      <img
+                        className="game-card"
+                        src={require(`../cards/${item.code}.png`)}
+                        alt=""
+                        {...provided.draggableProps}
+                        ref={provided.innerRef}
+                        {...provided.dragHandleProps}
+                      />
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+
+              <div className="game-body">
+                {game.pile5
+                .filter((item, index, pile5) => index === pile5.length - 1)
+                .map((item, index) => (
+                  <Draggable draggableId={item.code} index={index} key={item.code}>
+                    {provided => (
+                      <img
+                        className="game-card"
+                        src={require(`../cards/${item.code}.png`)}
+                        alt=""
+                        {...provided.draggableProps}
+                        ref={provided.innerRef}
+                        {...provided.dragHandleProps}
+                      />
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+
+              <div className="game-body">
+                {game.pile6
+                .filter((item, index, pile6) => index === pile6.length - 1)
+                .map((item, index) => (
+                  <Draggable draggableId={item.code} index={index} key={item.code}>
+                    {provided => (
+                      <img
+                        className="game-card"
+                        src={require(`../cards/${item.code}.png`)}
+                        alt=""
+                        {...provided.draggableProps}
+                        ref={provided.innerRef}
+                        {...provided.dragHandleProps}
+                      />
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+
+              <div className="game-body">
+                {game.pile7
+                .filter((item, index, pile7) => index === pile7.length - 1)
+                .map((item, index) => (
+                  <Draggable draggableId={item.code} index={index} key={item.code}>
+                    {provided => (
+                      <img
+                        className="game-card"
+                        src={require(`../cards/${item.code}.png`)}
+                        alt=""
+                        {...provided.draggableProps}
+                        ref={provided.innerRef}
+                        {...provided.dragHandleProps}
+                      />
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+
+            </div>
+          )}
+        </Droppable>
 
         <Droppable droppableId="DISCARD" direction="horizontal">
           {provided => (
-            <div ref={provided.innerRef} {...provided.droppableProps}>
-              <div className="game-body-discard">
-              <span>Click =></span>
-                
-                   <div onClick={drawCardButtonPressed}>
-                      <img src={require('../cards-other/BACK.png')} alt="" className="game-card" /> 
-                    </div> 
-                        
+            <div className="game-body" ref={provided.innerRef} {...provided.droppableProps}>
+              <div className="game-body">
+                <div onClick={drawCardButtonPressed}>
+                  <img src={require('../cards-other/BACK.png')} alt="" className="game-card" />
+                </div>
                 {game.discardPile
                   .filter((item, index, discardPile) => index === discardPile.length - 1)
                   .map((item, index) => (
@@ -204,29 +409,6 @@ const GameDetails1 = ({ gameType }) => {
           )}
         </Droppable>
 
-        <Droppable droppableId="HAND" direction="horizontal">
-          {provided => (
-            <div ref={provided.innerRef} {...provided.droppableProps}>
-              <div className="game-body">
-                {game.pile2.map((item, index) => (
-                  <Draggable draggableId={item.code} index={index} key={item.code}>
-                    {provided => (
-                      <img
-                        className="game-card"
-                        src={require(`../cards/${item.code}.png`)}
-                        alt=""
-                        {...provided.draggableProps}
-                        ref={provided.innerRef}
-                        {...provided.dragHandleProps}
-                      />
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </div>
-            </div>
-          )}
-        </Droppable>
       </DragDropContext>
     </div>
   );

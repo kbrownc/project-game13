@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-//import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { createDeck } from '../common/Deck';
 import { redealButtonPressed } from '../common/Buttons';
 

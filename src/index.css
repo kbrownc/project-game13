@@ -30,3 +30,8 @@ button {
   height: 100px;
   margin: 5px;
 }
+.game-body {
+  display: flex;
+  flex-direction: row;
+  margin: 2px;
+}

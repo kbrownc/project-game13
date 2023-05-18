@@ -9,7 +9,7 @@ function App() {
     <div className="app">
       <div className="container">
         <Navbar gameType={gameType} setGameType={setGameType}/>
-        <Game gameType={gameType} />
+        <Game gameType={gameType} setGameType={setGameType} />
       </div>
     </div>
   );

@@ -5,7 +5,7 @@ import GameDetails2 from './GameDetails2';
 import GameDetails3 from './GameDetails3';
 import GameDetails4 from './GameDetails4';
 
-const Game = ({gameType}) => {
+const Game = ({gameType, setGameType}) => {
 
   const gameBoard = (
     gameType === 1
@@ -20,7 +20,7 @@ const Game = ({gameType}) => {
   );
 
   return !gameType ? (
-    <SelectGame /> )
+    <SelectGame gameType={gameType} setGameType={setGameType} /> )
   : (
     gameBoard
   );
