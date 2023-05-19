@@ -21,7 +21,7 @@ const GameDetails1 = ({ gameType }) => {
     workGame.pile5 = [];
     workGame.pile6 = [];
     workGame.pile7 = [];
-    workGame.ace1 = [{cardValue: 9, code: "9-S", faceValue: "9", suit: "S"}];
+    workGame.ace1 = [];
     workGame.ace2 = [];
     workGame.ace3 = [];
     workGame.ace4 = [];
@@ -76,18 +76,20 @@ const GameDetails1 = ({ gameType }) => {
 
   function drawCardButtonPressed() {
     const numberOfCards = 3;
-    console.log(game)
     let card;
     //let workGame = JSON.parse(JSON.stringify(game));
     let workGame = structuredClone(game);
     let workDeck = JSON.parse(JSON.stringify(game.remDeck));
+    if (workDeck.length < 1) {
+      console.log('discardPile moved to remDeck')
+      workDeck = workGame.discardPile;
+    }
     let i = 0;
     while (i < numberOfCards && workDeck.length > 0) {
       card = workDeck.pop();
       workGame.discardPile.push(card);
       i++;
     }
-    if (workDeck.length < 1) return;
     if (workDeck.length < 2) {
       workGame.msg = 'Deck exhausted';
     }
@@ -193,7 +195,7 @@ const GameDetails1 = ({ gameType }) => {
         </div>
         <div className="game-msg">{game.msg}</div>
 
-        <div className="game-body">
+        <div className="game-body game-card-aces">
           <Droppable droppableId="ACE1" direction="horizontal">
             {provided => (
               <div className="game-body" ref={provided.innerRef} {...provided.droppableProps}>
