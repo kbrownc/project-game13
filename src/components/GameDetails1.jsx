@@ -38,36 +38,42 @@ const GameDetails1 = ({ gameType }) => {
     while (i < 2) {
       card = workDeck.pop();
       workGame.pile2.push(card);
+      if (i < 1) workGame.pile2[i].faceDown = true;
       i++;
     }
     i = 0;
     while (i < 3) {
       card = workDeck.pop();
       workGame.pile3.push(card);
+      if (i < 2) workGame.pile3[i].faceDown = true;
       i++;
     }
     i = 0;
     while (i < 4) {
       card = workDeck.pop();
       workGame.pile4.push(card);
+      if (i < 3) workGame.pile4[i].faceDown = true;
       i++;
     }
     i = 0;
     while (i < 5) {
       card = workDeck.pop();
       workGame.pile5.push(card);
+      if (i < 4) workGame.pile5[i].faceDown = true;
       i++;
     }
     i = 0;
     while (i < 6) {
       card = workDeck.pop();
       workGame.pile6.push(card);
+      if (i < 5) workGame.pile6[i].faceDown = true;
       i++;
     }
     i = 0;
     while (i < 7) {
       card = workDeck.pop();
       workGame.pile7.push(card);
+      if (i < 6) workGame.pile7[i].faceDown = true;
       i++;
     }
     workGame.remDeck = workDeck;
@@ -81,7 +87,6 @@ const GameDetails1 = ({ gameType }) => {
     let workGame = structuredClone(game);
     let workDeck = JSON.parse(JSON.stringify(game.remDeck));
     if (workDeck.length < 1) {
-      console.log('discardPile moved to remDeck')
       workDeck = workGame.discardPile;
     }
     let i = 0;
@@ -182,6 +187,7 @@ const GameDetails1 = ({ gameType }) => {
   };
 
   if (game.discardPile === undefined) return;
+
   return (
     <div className="game-content">
       <DragDropContext onDragEnd={onDragEnd}>
@@ -305,9 +311,11 @@ const GameDetails1 = ({ gameType }) => {
           <Droppable droppableId="PILE1" direction="horizontal">
             {provided => (
               <div className="game-body" ref={provided.innerRef} {...provided.droppableProps}>
-                <div className="game-body">
+              <div>{game.pile1.filter((item, index, pile1) => item.faceDown).length}</div>
+                <div className="game-body-col">
                   {game.pile1
-                    .filter((item, index, pile1) => index === pile1.length - 1)
+                    .filter((item, index, pile1) => pile1.faceDown === undefined)
+                    .filter((item, index, pile1) => index === 0 || index === pile1.length - 1)
                     .map((item, index) => (
                       <Draggable draggableId={item.code} index={index} key={item.code}>
                         {provided => (
@@ -331,9 +339,11 @@ const GameDetails1 = ({ gameType }) => {
           <Droppable droppableId="PILE2" direction="horizontal">
             {provided => (
               <div className="game-body" ref={provided.innerRef} {...provided.droppableProps}>
-                <div className="game-body">
+              <div>{game.pile2.filter((item, index, pile2) => item.faceDown).length}</div>
+                <div className="game-body-col">
                   {game.pile2
-                    .filter((item, index, pile2) => index === pile2.length - 1)
+                    .filter((item, index, pile2) => pile2.faceDown === undefined)
+                    .filter((item, index, pile2) => index === 0 || index === pile2.length - 1)
                     .map((item, index) => (
                       <Draggable draggableId={item.code} index={index} key={item.code}>
                         {provided => (
@@ -357,9 +367,11 @@ const GameDetails1 = ({ gameType }) => {
           <Droppable droppableId="PILE3" direction="horizontal">
             {provided => (
               <div className="game-body" ref={provided.innerRef} {...provided.droppableProps}>
-                <div className="game-body">
+              <div>{game.pile3.filter((item, index, pile3) => item.faceDown).length}</div>
+                <div className="game-body-col">
                   {game.pile3
-                    .filter((item, index, pile3) => index === pile3.length - 1)
+                    .filter((item, index, pile3) => pile3.faceDown === undefined)
+                    .filter((item, index, pile3) => index === 0 || index === pile3.length - 1)
                     .map((item, index) => (
                       <Draggable draggableId={item.code} index={index} key={item.code}>
                         {provided => (
@@ -383,9 +395,11 @@ const GameDetails1 = ({ gameType }) => {
           <Droppable droppableId="PILE4" direction="horizontal">
             {provided => (
               <div className="game-body" ref={provided.innerRef} {...provided.droppableProps}>
-                <div className="game-body">
+              <div>{game.pile4.filter((item, index, pile4) => item.faceDown).length}</div>
+                <div className="game-body-col">
                   {game.pile4
-                    .filter((item, index, pile4) => index === pile4.length - 1)
+                    .filter((item, index, pile4) => pile4.faceDown === undefined)
+                    .filter((item, index, pile4) => index === 0 || index === pile4.length - 1)
                     .map((item, index) => (
                       <Draggable draggableId={item.code} index={index} key={item.code}>
                         {provided => (
@@ -409,9 +423,11 @@ const GameDetails1 = ({ gameType }) => {
           <Droppable droppableId="PILE5" direction="horizontal">
             {provided => (
               <div className="game-body" ref={provided.innerRef} {...provided.droppableProps}>
-                <div className="game-body">
+              <div>{game.pile5.filter((item, index, pile5) => item.faceDown).length}</div>
+                <div className="game-body-col">
                   {game.pile5
-                    .filter((item, index, pile5) => index === pile5.length - 1)
+                    .filter((item, index, pile5) => pile5.faceDown === undefined)
+                    .filter((item, index, pile5) => index === 0 || index === pile5.length - 1)
                     .map((item, index) => (
                       <Draggable draggableId={item.code} index={index} key={item.code}>
                         {provided => (
@@ -435,9 +451,11 @@ const GameDetails1 = ({ gameType }) => {
           <Droppable droppableId="PILE6" direction="horizontal">
             {provided => (
               <div className="game-body" ref={provided.innerRef} {...provided.droppableProps}>
-                <div className="game-body">
+              <div>{game.pile6.filter((item, index, pile6) => item.faceDown).length}</div>
+                <div className="game-body-col">
                   {game.pile6
-                    .filter((item, index, pile6) => index === pile6.length - 1)
+                    .filter((item, index, pile6) => pile6.faceDown === undefined)
+                    .filter((item, index, pile6) => index === 0 || index === pile6.length - 1)
                     .map((item, index) => (
                       <Draggable draggableId={item.code} index={index} key={item.code}>
                         {provided => (
@@ -461,9 +479,11 @@ const GameDetails1 = ({ gameType }) => {
           <Droppable droppableId="PILE7" direction="horizontal">
             {provided => (
               <div className="game-body" ref={provided.innerRef} {...provided.droppableProps}>
-                <div className="game-body">
+              <div>{game.pile7.filter((item, index, pile7) => item.faceDown).length}</div>
+                <div className="game-body-col">
                   {game.pile7
-                    .filter((item, index, pile7) => index === pile7.length - 1)
+                    .filter((item, index, pile7) => pile7.faceDown === undefined)
+                    .filter((item, index, pile7) => index === 0 || index === pile7.length - 1)
                     .map((item, index) => (
                       <Draggable draggableId={item.code} index={index} key={item.code}>
                         {provided => (
