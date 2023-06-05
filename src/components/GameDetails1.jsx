@@ -25,14 +25,14 @@ const GameDetails1 = ({ gameType }) => {
     workGame.ace2 = [];
     workGame.ace3 = [];
     workGame.ace4 = [];
-    workGame.discardPile = [];
-    workGame.msg = '*************Start Game';
+    workGame.discard = [];
+    workGame.msg = '*************Start Game*************';
     let card;
     let i = 0;
     while (i < 1) {
       card = workDeck.pop();
       workGame.pile1.push(card);
-      workGame.pile1[i].faceDown = false
+      workGame.pile1[i].faceDown = false;
       i++;
     }
     i = 0;
@@ -40,9 +40,9 @@ const GameDetails1 = ({ gameType }) => {
       card = workDeck.pop();
       workGame.pile2.push(card);
       if (i < 1) {
-        workGame.pile2[i].faceDown = true
+        workGame.pile2[i].faceDown = true;
       } else {
-        workGame.pile2[i].faceDown = false
+        workGame.pile2[i].faceDown = false;
       }
       i++;
     }
@@ -51,9 +51,9 @@ const GameDetails1 = ({ gameType }) => {
       card = workDeck.pop();
       workGame.pile3.push(card);
       if (i < 2) {
-        workGame.pile3[i].faceDown = true
+        workGame.pile3[i].faceDown = true;
       } else {
-        workGame.pile3[i].faceDown = false
+        workGame.pile3[i].faceDown = false;
       }
       i++;
     }
@@ -62,9 +62,9 @@ const GameDetails1 = ({ gameType }) => {
       card = workDeck.pop();
       workGame.pile4.push(card);
       if (i < 3) {
-        workGame.pile4[i].faceDown = true
+        workGame.pile4[i].faceDown = true;
       } else {
-        workGame.pile4[i].faceDown = false
+        workGame.pile4[i].faceDown = false;
       }
       i++;
     }
@@ -73,9 +73,9 @@ const GameDetails1 = ({ gameType }) => {
       card = workDeck.pop();
       workGame.pile5.push(card);
       if (i < 4) {
-        workGame.pile5[i].faceDown = true
+        workGame.pile5[i].faceDown = true;
       } else {
-        workGame.pile5[i].faceDown = false
+        workGame.pile5[i].faceDown = false;
       }
       i++;
     }
@@ -84,9 +84,9 @@ const GameDetails1 = ({ gameType }) => {
       card = workDeck.pop();
       workGame.pile6.push(card);
       if (i < 5) {
-        workGame.pile6[i].faceDown = true
+        workGame.pile6[i].faceDown = true;
       } else {
-        workGame.pile6[i].faceDown = false
+        workGame.pile6[i].faceDown = false;
       }
       i++;
     }
@@ -95,9 +95,9 @@ const GameDetails1 = ({ gameType }) => {
       card = workDeck.pop();
       workGame.pile7.push(card);
       if (i < 6) {
-        workGame.pile7[i].faceDown = true
+        workGame.pile7[i].faceDown = true;
       } else {
-        workGame.pile7[i].faceDown = false
+        workGame.pile7[i].faceDown = false;
       }
       i++;
     }
@@ -108,16 +108,15 @@ const GameDetails1 = ({ gameType }) => {
   function drawCardButtonPressed() {
     const numberOfCards = 3;
     let card;
-    //let workGame = JSON.parse(JSON.stringify(game));
     let workGame = structuredClone(game);
     let workDeck = JSON.parse(JSON.stringify(game.remDeck));
     if (workDeck.length < 1) {
-      workDeck = workGame.discardPile;
+      workDeck = workGame.discard;
     }
     let i = 0;
     while (i < numberOfCards && workDeck.length > 0) {
       card = workDeck.pop();
-      workGame.discardPile.push(card);
+      workGame.discard.push(card);
       i++;
     }
     if (workDeck.length < 2) {
@@ -126,6 +125,37 @@ const GameDetails1 = ({ gameType }) => {
     workGame.remDeck = workDeck;
     setGame(workGame);
   }
+
+  const moveCard = (source, target, sourceIndex, workGame) => {
+    let add = workGame[source].slice(sourceIndex, sourceIndex + 1);
+    workGame[source].splice(sourceIndex, 1);
+    workGame[target].splice(workGame[target].length, 0, ...add);
+  };
+
+  // move a pile
+  // const movePile = (source, target, changedHandPC, cardsMoved, changedHandPCround) => {
+  //   let workMessage = '';
+  //   if (target.length > 0 && source.length > 0) {
+  //     cardsMoved = checkForMovePile(source, target, 0, cardsMoved, changedHandPCround);
+  //     if (cardsMoved) {
+  //       moveCard(changedHandPC, source, 0, changedHandPCround);
+  //       // NEW: move to handle addition of card to empty pile... and if it can be built on
+  //       let cardsMoved = false;
+  //       for (let i = 0; i < changedHandPC.length; i++) {
+  //         if (changedHandPC.length === 0) break;
+  //         [i, cardsMoved] = checkForMove(changedHandPC, source, i, cardsMoved, changedHandPCround);
+  //         if (cardsMoved) {
+  //           i = -1;
+  //           cardsMoved = false;
+  //         }
+  //       }
+  //       cardsMoved = true;
+  //       // NEW END
+  //       workMessage = endOfGameCheck(changedHandPC);
+  //     }
+  //   }
+  //   return [workMessage, cardsMoved];
+  // };
 
   const onDragEnd = result => {
     if (!result.destination) return;
@@ -140,78 +170,20 @@ const GameDetails1 = ({ gameType }) => {
       return;
     }
     // moving cards within and between piles and the DISCARD pile
-    let add;
-    //let workGame = JSON.parse(JSON.stringify(game));
     let workGame = structuredClone(game);
-    // Source Logic - remove card
-    if (source.droppableId === 'PILE1') {
-      add = workGame.pile1.slice(source.index, source.index + 1);
-      workGame.pile1.splice(source.index, 1);
-    } else if (source.droppableId === 'PILE2') {
-      add = workGame.pile2.slice(workGame.pile2.length - 1);
-      workGame.pile2.splice(workGame.pile2.length - 1, 1);
-    } else if (source.droppableId === 'PILE3') {
-      add = workGame.pile3.slice(workGame.pile3.length - 1);
-      workGame.pile3.splice(workGame.pile3.length - 1, 1);
-    } else if (source.droppableId === 'PILE4') {
-      add = workGame.pile4.slice(workGame.pile4.length - 1);
-      workGame.pile4.splice(workGame.pile4.length - 1, 1);
-    } else if (source.droppableId === 'PILE5') {
-      add = workGame.pile5.slice(workGame.pile5.length - 1);
-      workGame.pile5.splice(workGame.pile5.length - 1, 1);
-    } else if (source.droppableId === 'PILE6') {
-      add = workGame.pile6.slice(workGame.pile6.length - 1);
-      workGame.pile6.splice(workGame.pile6.length - 1, 1);
-    } else if (source.droppableId === 'PILE7') {
-      add = workGame.pile7.slice(workGame.pile7.length - 1);
-      workGame.pile7.splice(workGame.pile7.length - 1, 1);
-    } else if (source.droppableId === 'DISCARD') {
-      add = workGame.discardPile.slice(workGame.discardPile.length - 1);
-      workGame.discardPile.splice(workGame.discardPile.length - 1, 1);
-    } else if (source.droppableId === 'ACE1') {
-      add = workGame.ace1.slice(workGame.ace1.length - 1);
-      workGame.ace1.splice(workGame.ace1.length - 1, 1);
-    } else if (source.droppableId === 'ACE2') {
-      add = workGame.ace2.slice(workGame.ace2.length - 1);
-      workGame.ace2.splice(workGame.ace2.length - 1, 1);
-    } else if (source.droppableId === 'ACE3') {
-      add = workGame.ace3.slice(workGame.ace3.length - 1);
-      workGame.ace3.splice(workGame.ace3.length - 1, 1);
-    } else if (source.droppableId === 'ACE4') {
-      add = workGame.ace4.slice(workGame.ace4.length - 1);
-      workGame.ace4.splice(workGame.ace4.length - 1, 1);
-    }
-    // Destination Logic
-    if (destination.droppableId === 'PILE1') {
-      workGame.pile1.splice(destination.index, 0, ...add);
-    } else if (destination.droppableId === 'PILE2') {
-      workGame.pile2.splice(workGame.pile2.length, 0, ...add);
-    } else if (destination.droppableId === 'PILE3') {
-      workGame.pile3.splice(workGame.pile3.length, 0, ...add);
-    } else if (destination.droppableId === 'PILE4') {
-      workGame.pile4.splice(workGame.pile4.length, 0, ...add);
-    } else if (destination.droppableId === 'PILE5') {
-      workGame.pile5.splice(workGame.pile5.length, 0, ...add);
-    } else if (destination.droppableId === 'PILE6') {
-      workGame.pile6.splice(workGame.pile6.length, 0, ...add);
-    } else if (destination.droppableId === 'PILE7') {
-      workGame.pile7.splice(workGame.pile7.length, 0, ...add);
-    } else if (destination.droppableId === 'DISCARD') {
-      workGame.discardPile.splice(workGame.discardPile.length, 0, ...add);
-    } else if (destination.droppableId === 'ACE1') {
-      workGame.ace1.splice(workGame.ace1.length, 0, ...add);
-    } else if (destination.droppableId === 'ACE2') {
-      workGame.ace2.splice(workGame.ace2.length, 0, ...add);
-    } else if (destination.droppableId === 'ACE3') {
-      workGame.ace3.splice(workGame.ace3.length, 0, ...add);
-    } else if (destination.droppableId === 'ACE4') {
-      workGame.ace4.splice(workGame.ace4.length, 0, ...add);
-    }
+    // Source/Target Logic - remove card
+    moveCard(
+      source.droppableId.toLowerCase(),
+      destination.droppableId.toLowerCase(),
+      workGame[source.droppableId.toLowerCase()].length - 1,
+      workGame
+    );
+
     // update state
     setGame(workGame);
   };
 
-  if (game.discardPile === undefined) return;
+  if (game.discard === undefined) return;
 
   return (
     <div className="game-content">
@@ -332,11 +304,40 @@ const GameDetails1 = ({ gameType }) => {
           </Droppable>
         </div>
 
+        <Droppable droppableId="DISCARD" direction="horizontal">
+          {provided => (
+            <div className="game-body" ref={provided.innerRef} {...provided.droppableProps}>
+              <div className="game-body">
+                <div onClick={drawCardButtonPressed}>
+                  <img src={require('../cards-other/BACK.png')} alt="" className="game-card" />
+                </div>
+                {game.discard
+                  .filter((item, index, discard) => index === discard.length - 1)
+                  .map((item, index) => (
+                    <Draggable draggableId={item.code} index={index} key={item.code}>
+                      {provided => (
+                        <img
+                          className="game-card"
+                          src={require(`../cards/${item.code}.png`)}
+                          alt=""
+                          {...provided.draggableProps}
+                          ref={provided.innerRef}
+                          {...provided.dragHandleProps}
+                        />
+                      )}
+                    </Draggable>
+                  ))}
+                {provided.placeholder}
+              </div>
+            </div>
+          )}
+        </Droppable>
+
         <div className="game-body">
           <Droppable droppableId="PILE1" direction="horizontal">
             {provided => (
               <div className="game-body" ref={provided.innerRef} {...provided.droppableProps}>
-              <div>{game.pile1.filter((item, index, pile1) => item.faceDown).length}</div>
+                <div>{game.pile1.filter((item, index, pile1) => item.faceDown).length}</div>
                 <div className="game-body-col">
                   {game.pile1
                     .filter((item, index, pile1) => !item.faceDown)
@@ -364,7 +365,7 @@ const GameDetails1 = ({ gameType }) => {
           <Droppable droppableId="PILE2" direction="horizontal">
             {provided => (
               <div className="game-body" ref={provided.innerRef} {...provided.droppableProps}>
-              <div>{game.pile2.filter((item, index, pile2) => item.faceDown).length}</div>
+                <div>{game.pile2.filter((item, index, pile2) => item.faceDown).length}</div>
                 <div className="game-body-col">
                   {game.pile2
                     .filter((item, index, pile2) => !item.faceDown)
@@ -392,7 +393,7 @@ const GameDetails1 = ({ gameType }) => {
           <Droppable droppableId="PILE3" direction="horizontal">
             {provided => (
               <div className="game-body" ref={provided.innerRef} {...provided.droppableProps}>
-              <div>{game.pile3.filter((item, index, pile3) => item.faceDown).length}</div>
+                <div>{game.pile3.filter((item, index, pile3) => item.faceDown).length}</div>
                 <div className="game-body-col">
                   {game.pile3
                     .filter((item, index, pile3) => !item.faceDown)
@@ -420,7 +421,7 @@ const GameDetails1 = ({ gameType }) => {
           <Droppable droppableId="PILE4" direction="horizontal">
             {provided => (
               <div className="game-body" ref={provided.innerRef} {...provided.droppableProps}>
-              <div>{game.pile4.filter((item, index, pile4) => item.faceDown).length}</div>
+                <div>{game.pile4.filter((item, index, pile4) => item.faceDown).length}</div>
                 <div className="game-body-col">
                   {game.pile4
                     .filter((item, index, pile4) => !item.faceDown)
@@ -448,7 +449,7 @@ const GameDetails1 = ({ gameType }) => {
           <Droppable droppableId="PILE5" direction="horizontal">
             {provided => (
               <div className="game-body" ref={provided.innerRef} {...provided.droppableProps}>
-              <div>{game.pile5.filter((item, index, pile5) => item.faceDown).length}</div>
+                <div>{game.pile5.filter((item, index, pile5) => item.faceDown).length}</div>
                 <div className="game-body-col">
                   {game.pile5
                     .filter((item, index, pile5) => !item.faceDown)
@@ -476,7 +477,7 @@ const GameDetails1 = ({ gameType }) => {
           <Droppable droppableId="PILE6" direction="horizontal">
             {provided => (
               <div className="game-body" ref={provided.innerRef} {...provided.droppableProps}>
-              <div>{game.pile6.filter((item, index, pile6) => item.faceDown).length}</div>
+                <div>{game.pile6.filter((item, index, pile6) => item.faceDown).length}</div>
                 <div className="game-body-col">
                   {game.pile6
                     .filter((item, index, pile6) => !item.faceDown)
@@ -504,7 +505,7 @@ const GameDetails1 = ({ gameType }) => {
           <Droppable droppableId="PILE7" direction="horizontal">
             {provided => (
               <div className="game-body" ref={provided.innerRef} {...provided.droppableProps}>
-              <div>{game.pile7.filter((item, index, pile7) => item.faceDown).length}</div>
+                <div>{game.pile7.filter((item, index, pile7) => item.faceDown).length}</div>
                 <div className="game-body-col">
                   {game.pile7
                     .filter((item, index, pile7) => !item.faceDown)
@@ -529,35 +530,6 @@ const GameDetails1 = ({ gameType }) => {
             )}
           </Droppable>
         </div>
-
-        <Droppable droppableId="DISCARD" direction="horizontal">
-          {provided => (
-            <div className="game-body" ref={provided.innerRef} {...provided.droppableProps}>
-              <div className="game-body">
-                <div onClick={drawCardButtonPressed}>
-                  <img src={require('../cards-other/BACK.png')} alt="" className="game-card" />
-                </div>
-                {game.discardPile
-                  .filter((item, index, discardPile) => index === discardPile.length - 1)
-                  .map((item, index) => (
-                    <Draggable draggableId={item.code} index={index} key={item.code}>
-                      {provided => (
-                        <img
-                          className="game-card"
-                          src={require(`../cards/${item.code}.png`)}
-                          alt=""
-                          {...provided.draggableProps}
-                          ref={provided.innerRef}
-                          {...provided.dragHandleProps}
-                        />
-                      )}
-                    </Draggable>
-                  ))}
-                {provided.placeholder}
-              </div>
-            </div>
-          )}
-        </Droppable>
       </DragDropContext>
     </div>
   );
