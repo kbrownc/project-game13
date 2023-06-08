@@ -132,6 +132,29 @@ const GameDetails1 = ({ gameType }) => {
     workGame[target].splice(workGame[target].length, 0, ...add);
   };
 
+  const flipTopCard = (source, workGame) => {
+    // does pileN have any faceup cards (if YES stop)
+    for(let i = 0; i < workGame[source].length; i++) {
+        if (workGame[source][i].faceDown === false) {
+          return;
+        }
+    }
+    // does pileN have at least 1 facedowan (if YES continue)
+    for(let i = 0; i < workGame[source].length; i++) {
+        if (workGame[source][i].faceDown === true) {
+          break;
+        }
+    }
+    // turn last faceDown card faceup
+    workGame[source]
+      .filter((item, index, source) => item.faceDown)
+      .map((item, index) => {
+        if (index === workGame[source].length - 1) {
+          item.faceDown = false;
+        }
+      });
+  };
+
   // move a pile
   // const movePile = (source, target, changedHandPC, cardsMoved, changedHandPCround) => {
   //   let workMessage = '';
@@ -178,6 +201,13 @@ const GameDetails1 = ({ gameType }) => {
       workGame[source.droppableId.toLowerCase()].length - 1,
       workGame
     );
+
+    // Turn card face up if none are currently face up
+    if (source.droppableId.includes('PILE')) {
+      flipTopCard(
+      source.droppableId.toLowerCase(),
+      workGame)
+    };
 
     // update state
     setGame(workGame);
