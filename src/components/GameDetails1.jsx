@@ -132,18 +132,24 @@ const GameDetails1 = ({ gameType }) => {
     workGame[target].splice(workGame[target].length, 0, ...add);
   };
 
+  const movePile = (source, target, sourceIndex, workGame) => {
+    let add = workGame[source].slice(sourceIndex);
+    workGame[source].splice(sourceIndex, add.length);
+    workGame[target].splice(workGame[target].length, 0, ...add);
+  };
+
   const flipTopCard = (source, workGame) => {
     // does pileN have any faceup cards (if YES stop)
-    for(let i = 0; i < workGame[source].length; i++) {
-        if (workGame[source][i].faceDown === false) {
-          return;
-        }
+    for (let i = 0; i < workGame[source].length; i++) {
+      if (workGame[source][i].faceDown === false) {
+        return;
+      }
     }
     // does pileN have at least 1 facedowan (if YES continue)
-    for(let i = 0; i < workGame[source].length; i++) {
-        if (workGame[source][i].faceDown === true) {
-          break;
-        }
+    for (let i = 0; i < workGame[source].length; i++) {
+      if (workGame[source][i].faceDown === true) {
+        break;
+      }
     }
     // turn last faceDown card faceup
     workGame[source]
@@ -154,31 +160,6 @@ const GameDetails1 = ({ gameType }) => {
         }
       });
   };
-
-  // move a pile
-  // const movePile = (source, target, changedHandPC, cardsMoved, changedHandPCround) => {
-  //   let workMessage = '';
-  //   if (target.length > 0 && source.length > 0) {
-  //     cardsMoved = checkForMovePile(source, target, 0, cardsMoved, changedHandPCround);
-  //     if (cardsMoved) {
-  //       moveCard(changedHandPC, source, 0, changedHandPCround);
-  //       // NEW: move to handle addition of card to empty pile... and if it can be built on
-  //       let cardsMoved = false;
-  //       for (let i = 0; i < changedHandPC.length; i++) {
-  //         if (changedHandPC.length === 0) break;
-  //         [i, cardsMoved] = checkForMove(changedHandPC, source, i, cardsMoved, changedHandPCround);
-  //         if (cardsMoved) {
-  //           i = -1;
-  //           cardsMoved = false;
-  //         }
-  //       }
-  //       cardsMoved = true;
-  //       // NEW END
-  //       workMessage = endOfGameCheck(changedHandPC);
-  //     }
-  //   }
-  //   return [workMessage, cardsMoved];
-  // };
 
   const onDragEnd = result => {
     if (!result.destination) return;
@@ -195,19 +176,30 @@ const GameDetails1 = ({ gameType }) => {
     // moving cards within and between piles and the DISCARD pile
     let workGame = structuredClone(game);
     // Source/Target Logic - remove card
-    moveCard(
-      source.droppableId.toLowerCase(),
-      destination.droppableId.toLowerCase(),
-      workGame[source.droppableId.toLowerCase()].length - 1,
-      workGame
-    );
+
+    // move 1 card or entire faceup array
+    //    if needs to recognize when last card in array was moved
+    //    else needs to recognize when non last card was moved
+    if (source.index === 1) {
+      moveCard(
+        source.droppableId.toLowerCase(),
+        destination.droppableId.toLowerCase(),
+        workGame[source.droppableId.toLowerCase()].length - 1,
+        workGame
+      );
+    } else {
+      movePile(
+        source.droppableId.toLowerCase(),
+        destination.droppableId.toLowerCase(),
+        workGame[source.droppableId.toLowerCase()].length - 1,
+        workGame
+      );
+    }
 
     // Turn card face up if none are currently face up
     if (source.droppableId.includes('PILE')) {
-      flipTopCard(
-      source.droppableId.toLowerCase(),
-      workGame)
-    };
+      flipTopCard(source.droppableId.toLowerCase(), workGame);
+    }
 
     // update state
     setGame(workGame);
@@ -334,34 +326,36 @@ const GameDetails1 = ({ gameType }) => {
           </Droppable>
         </div>
 
-        <Droppable droppableId="DISCARD" direction="horizontal">
-          {provided => (
-            <div className="game-body" ref={provided.innerRef} {...provided.droppableProps}>
-              <div className="game-body">
-                <div onClick={drawCardButtonPressed}>
-                  <img src={require('../cards-other/BACK.png')} alt="" className="game-card" />
+        <div className="game-body">
+          <Droppable droppableId="DISCARD" direction="horizontal">
+            {provided => (
+              <div className="game-body" ref={provided.innerRef} {...provided.droppableProps}>
+                <div className="game-body">
+                  <div onClick={drawCardButtonPressed}>
+                    <img src={require('../cards-other/BACK.png')} alt="" className="game-card" />
+                  </div>
+                  {game.discard
+                    .filter((item, index, discard) => index === discard.length - 1)
+                    .map((item, index) => (
+                      <Draggable draggableId={item.code} index={index} key={item.code}>
+                        {provided => (
+                          <img
+                            className="game-card"
+                            src={require(`../cards/${item.code}.png`)}
+                            alt=""
+                            {...provided.draggableProps}
+                            ref={provided.innerRef}
+                            {...provided.dragHandleProps}
+                          />
+                        )}
+                      </Draggable>
+                    ))}
+                  {provided.placeholder}
                 </div>
-                {game.discard
-                  .filter((item, index, discard) => index === discard.length - 1)
-                  .map((item, index) => (
-                    <Draggable draggableId={item.code} index={index} key={item.code}>
-                      {provided => (
-                        <img
-                          className="game-card"
-                          src={require(`../cards/${item.code}.png`)}
-                          alt=""
-                          {...provided.draggableProps}
-                          ref={provided.innerRef}
-                          {...provided.dragHandleProps}
-                        />
-                      )}
-                    </Draggable>
-                  ))}
-                {provided.placeholder}
               </div>
-            </div>
-          )}
-        </Droppable>
+            )}
+          </Droppable>
+        </div>
 
         <div className="game-body">
           <Droppable droppableId="PILE1" direction="horizontal">
