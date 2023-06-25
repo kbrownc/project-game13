@@ -5,6 +5,7 @@ import { redealButtonPressed } from '../common/Buttons';
 
 const GameDetails1 = ({ gameType }) => {
   const [game, setGame] = useState([]);
+  const cardOffset = '55px';
 
   useEffect(() => {
     let workDeck = [];
@@ -101,6 +102,16 @@ const GameDetails1 = ({ gameType }) => {
       }
       i++;
     }
+
+    // card = workDeck.pop();
+    // workGame.ace1.push(card);
+    // card = workDeck.pop();
+    // workGame.ace2.push(card);
+    // card = workDeck.pop();
+    // workGame.ace3.push(card);
+    // card = workDeck.pop();
+    // workGame.ace4.push(card);
+
     workGame.remDeck = workDeck;
     setGame(workGame);
   }
@@ -165,6 +176,7 @@ const GameDetails1 = ({ gameType }) => {
     if (!result.destination) return;
     // store where the card was initially and where it was dropped
     const { destination, source } = result;
+    console.log('source', source, 'destination', destination);
     // make sure there is a change (moved item outside of draggable context area)
     if (!destination || !source) {
       return;
@@ -180,6 +192,7 @@ const GameDetails1 = ({ gameType }) => {
     // move 1 card or entire faceup array
     //    if needs to recognize when last card in array was moved
     //    else needs to recognize when non last card was moved
+
     if (source.index === 1) {
       moveCard(
         source.droppableId.toLowerCase(),
@@ -208,7 +221,7 @@ const GameDetails1 = ({ gameType }) => {
   if (game.discard === undefined) return;
 
   return (
-    <div className="game-content">
+    <div className="game-content container2">
       <DragDropContext onDragEnd={onDragEnd}>
         <div className="game-header1">
           <span>** Game 1 - Solataire **</span>
@@ -220,7 +233,7 @@ const GameDetails1 = ({ gameType }) => {
         </div>
         <div className="game-msg">{game.msg}</div>
 
-        <div className="game-body">
+        <div className="game-body game-width">
           <div className="game-card-aces">
             <Droppable droppableId="ACE1" direction="horizontal">
               {provided => (
@@ -357,26 +370,32 @@ const GameDetails1 = ({ gameType }) => {
           </Droppable>
         </div>
 
-        <div className="game-body">
+        <div className="game-body game-overall">
           <Droppable droppableId="PILE1" direction="horizontal">
             {provided => (
-              <div className="game-body" ref={provided.innerRef} {...provided.droppableProps}>
+              <div ref={provided.innerRef} {...provided.droppableProps}>
                 <div>{game.pile1.filter((item, index, pile1) => item.faceDown).length}</div>
-                <div className="game-body-col">
+                <div>
                   {game.pile1
                     .filter((item, index, pile1) => !item.faceDown)
                     .filter((item, index, pile1) => index === 0 || index === pile1.length - 1)
                     .map((item, index) => (
                       <Draggable draggableId={item.code} index={index} key={item.code}>
                         {provided => (
-                          <img
-                            className="game-card"
-                            src={require(`../cards/${item.code}.png`)}
-                            alt=""
-                            {...provided.draggableProps}
-                            ref={provided.innerRef}
-                            {...provided.dragHandleProps}
-                          />
+                          <div
+                            key={item.id}
+                            className="game-body-col"
+                            style={{ top: `calc(${index} * ${cardOffset})` }}
+                          >
+                            <img
+                              className="game-card"
+                              src={require(`../cards/${item.code}.png`)}
+                              alt=""
+                              {...provided.draggableProps}
+                              ref={provided.innerRef}
+                              {...provided.dragHandleProps}
+                            />
+                          </div>
                         )}
                       </Draggable>
                     ))}
@@ -390,7 +409,7 @@ const GameDetails1 = ({ gameType }) => {
             {provided => (
               <div className="game-body" ref={provided.innerRef} {...provided.droppableProps}>
                 <div>{game.pile2.filter((item, index, pile2) => item.faceDown).length}</div>
-                <div className="game-body-col">
+                <div>
                   {game.pile2
                     .filter((item, index, pile2) => !item.faceDown)
                     .filter((item, index, pile2) => index === 0 || index === pile2.length - 1)
@@ -418,7 +437,7 @@ const GameDetails1 = ({ gameType }) => {
             {provided => (
               <div className="game-body" ref={provided.innerRef} {...provided.droppableProps}>
                 <div>{game.pile3.filter((item, index, pile3) => item.faceDown).length}</div>
-                <div className="game-body-col">
+                <div>
                   {game.pile3
                     .filter((item, index, pile3) => !item.faceDown)
                     .filter((item, index, pile3) => index === 0 || index === pile3.length - 1)
@@ -446,7 +465,7 @@ const GameDetails1 = ({ gameType }) => {
             {provided => (
               <div className="game-body" ref={provided.innerRef} {...provided.droppableProps}>
                 <div>{game.pile4.filter((item, index, pile4) => item.faceDown).length}</div>
-                <div className="game-body-col">
+                <div>
                   {game.pile4
                     .filter((item, index, pile4) => !item.faceDown)
                     .filter((item, index, pile4) => index === 0 || index === pile4.length - 1)
@@ -474,7 +493,7 @@ const GameDetails1 = ({ gameType }) => {
             {provided => (
               <div className="game-body" ref={provided.innerRef} {...provided.droppableProps}>
                 <div>{game.pile5.filter((item, index, pile5) => item.faceDown).length}</div>
-                <div className="game-body-col">
+                <div>
                   {game.pile5
                     .filter((item, index, pile5) => !item.faceDown)
                     .filter((item, index, pile5) => index === 0 || index === pile5.length - 1)
@@ -502,7 +521,7 @@ const GameDetails1 = ({ gameType }) => {
             {provided => (
               <div className="game-body" ref={provided.innerRef} {...provided.droppableProps}>
                 <div>{game.pile6.filter((item, index, pile6) => item.faceDown).length}</div>
-                <div className="game-body-col">
+                <div>
                   {game.pile6
                     .filter((item, index, pile6) => !item.faceDown)
                     .filter((item, index, pile6) => index === 0 || index === pile6.length - 1)
@@ -530,7 +549,7 @@ const GameDetails1 = ({ gameType }) => {
             {provided => (
               <div className="game-body" ref={provided.innerRef} {...provided.droppableProps}>
                 <div>{game.pile7.filter((item, index, pile7) => item.faceDown).length}</div>
-                <div className="game-body-col">
+                <div>
                   {game.pile7
                     .filter((item, index, pile7) => !item.faceDown)
                     .filter((item, index, pile7) => index === 0 || index === pile7.length - 1)

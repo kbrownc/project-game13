@@ -17,6 +17,9 @@
   font-size: 20px;
   color: white;
 }
+.container2 {
+  width: 720px;
+}
 button {
   margin: 0 2px;
   padding: 5px;
@@ -30,15 +33,26 @@ button {
   height: 100px;
   margin: 5px;
   padding: 5px;
+  min-width: 70px;
+  min-height: 100px;
 }
 .game-card-aces {
   display: flex;
   border: solid;
-  width: 480px;
+  width: 400px;
   height: 120px;
 }
 .game-body {
   display: flex;
   flex-direction: row;
   margin: 2px;
+}
+.game-body-col {
+  position: absolute;
+}
+.game-overall {
+  position: relative;
+}
+.game-width {
+  width: 580px;
 }
