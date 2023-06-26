@@ -176,7 +176,6 @@ const GameDetails1 = ({ gameType }) => {
     if (!result.destination) return;
     // store where the card was initially and where it was dropped
     const { destination, source } = result;
-    console.log('source', source, 'destination', destination);
     // make sure there is a change (moved item outside of draggable context area)
     if (!destination || !source) {
       return;
@@ -373,7 +372,7 @@ const GameDetails1 = ({ gameType }) => {
         <div className="game-body game-overall">
           <Droppable droppableId="PILE1" direction="horizontal">
             {provided => (
-              <div ref={provided.innerRef} {...provided.droppableProps}>
+              <div className="game-body" ref={provided.innerRef} {...provided.droppableProps}>
                 <div>{game.pile1.filter((item, index, pile1) => item.faceDown).length}</div>
                 <div>
                   {game.pile1
@@ -383,7 +382,6 @@ const GameDetails1 = ({ gameType }) => {
                       <Draggable draggableId={item.code} index={index} key={item.code}>
                         {provided => (
                           <div
-                            key={item.id}
                             className="game-body-col"
                             style={{ top: `calc(${index} * ${cardOffset})` }}
                           >
