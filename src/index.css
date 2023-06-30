@@ -17,7 +17,7 @@
   font-size: 20px;
   color: white;
 }
-.container2 {
+.game-content {
   width: 720px;
 }
 button {
@@ -46,11 +46,17 @@ button {
   display: flex;
   flex-direction: row;
   margin: 2px;
+  width: 70px;
 }
 .game-body-col {
+  display: flex;
+  flex-direction: column;
+  margin: 2px;
+}
+.game-body-ab {
   position: absolute;
 }
-.game-overall {
+.game-relative {
   position: relative;
 }
 .game-width {
