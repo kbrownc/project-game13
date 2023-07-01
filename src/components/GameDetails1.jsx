@@ -102,16 +102,6 @@ const GameDetails1 = ({ gameType }) => {
       }
       i++;
     }
-
-    // card = workDeck.pop();
-    // workGame.ace1.push(card);
-    // card = workDeck.pop();
-    // workGame.ace2.push(card);
-    // card = workDeck.pop();
-    // workGame.ace3.push(card);
-    // card = workDeck.pop();
-    // workGame.ace4.push(card);
-
     workGame.remDeck = workDeck;
     setGame(workGame);
   }
@@ -369,22 +359,18 @@ const GameDetails1 = ({ gameType }) => {
           </Droppable>
         </div>
 
-        <div className="game-body game-overall">
+        <div className="game-body game-relative">
           <Droppable droppableId="PILE1" direction="horizontal">
             {provided => (
-              <div className="game-body" ref={provided.innerRef} {...provided.droppableProps}>
-                <div>{game.pile1.filter((item, index, pile1) => item.faceDown).length}</div>
-                <div>
+              <div ref={provided.innerRef} {...provided.droppableProps}>
+                <div className="game-body">
                   {game.pile1
                     .filter((item, index, pile1) => !item.faceDown)
                     .filter((item, index, pile1) => index === 0 || index === pile1.length - 1)
                     .map((item, index) => (
                       <Draggable draggableId={item.code} index={index} key={item.code}>
                         {provided => (
-                          <div
-                            className="game-body-col"
-                            style={{ top: `calc(${index} * ${cardOffset})` }}
-                          >
+                          <div style={{position: 'absolute', top: `calc(${index} * ${cardOffset})` }}>
                             <img
                               className="game-card"
                               src={require(`../cards/${item.code}.png`)}
@@ -405,15 +391,15 @@ const GameDetails1 = ({ gameType }) => {
 
           <Droppable droppableId="PILE2" direction="horizontal">
             {provided => (
-              <div className="game-body" ref={provided.innerRef} {...provided.droppableProps}>
-                <div>{game.pile2.filter((item, index, pile2) => item.faceDown).length}</div>
-                <div>
+              <div ref={provided.innerRef} {...provided.droppableProps}>
+                <div className="game-body">
                   {game.pile2
                     .filter((item, index, pile2) => !item.faceDown)
                     .filter((item, index, pile2) => index === 0 || index === pile2.length - 1)
                     .map((item, index) => (
                       <Draggable draggableId={item.code} index={index} key={item.code}>
                         {provided => (
+                          <div style={{position: 'absolute', top: `calc(${index} * ${cardOffset})` }}>
                           <img
                             className="game-card"
                             src={require(`../cards/${item.code}.png`)}
@@ -422,6 +408,7 @@ const GameDetails1 = ({ gameType }) => {
                             ref={provided.innerRef}
                             {...provided.dragHandleProps}
                           />
+                          </div>
                         )}
                       </Draggable>
                     ))}
@@ -433,15 +420,15 @@ const GameDetails1 = ({ gameType }) => {
 
           <Droppable droppableId="PILE3" direction="horizontal">
             {provided => (
-              <div className="game-body" ref={provided.innerRef} {...provided.droppableProps}>
-                <div>{game.pile3.filter((item, index, pile3) => item.faceDown).length}</div>
-                <div>
+              <div ref={provided.innerRef} {...provided.droppableProps}>
+                <div className="game-body">
                   {game.pile3
                     .filter((item, index, pile3) => !item.faceDown)
                     .filter((item, index, pile3) => index === 0 || index === pile3.length - 1)
                     .map((item, index) => (
                       <Draggable draggableId={item.code} index={index} key={item.code}>
                         {provided => (
+                          <div style={{position: 'absolute', top: `calc(${index} * ${cardOffset})` }}>
                           <img
                             className="game-card"
                             src={require(`../cards/${item.code}.png`)}
@@ -450,6 +437,7 @@ const GameDetails1 = ({ gameType }) => {
                             ref={provided.innerRef}
                             {...provided.dragHandleProps}
                           />
+                          </div>
                         )}
                       </Draggable>
                     ))}
@@ -461,15 +449,15 @@ const GameDetails1 = ({ gameType }) => {
 
           <Droppable droppableId="PILE4" direction="horizontal">
             {provided => (
-              <div className="game-body" ref={provided.innerRef} {...provided.droppableProps}>
-                <div>{game.pile4.filter((item, index, pile4) => item.faceDown).length}</div>
-                <div>
+              <div ref={provided.innerRef} {...provided.droppableProps}>
+                <div className="game-body">
                   {game.pile4
                     .filter((item, index, pile4) => !item.faceDown)
                     .filter((item, index, pile4) => index === 0 || index === pile4.length - 1)
                     .map((item, index) => (
                       <Draggable draggableId={item.code} index={index} key={item.code}>
                         {provided => (
+                          <div style={{position: 'absolute', top: `calc(${index} * ${cardOffset})` }}>
                           <img
                             className="game-card"
                             src={require(`../cards/${item.code}.png`)}
@@ -478,6 +466,7 @@ const GameDetails1 = ({ gameType }) => {
                             ref={provided.innerRef}
                             {...provided.dragHandleProps}
                           />
+                          </div>
                         )}
                       </Draggable>
                     ))}
@@ -489,15 +478,15 @@ const GameDetails1 = ({ gameType }) => {
 
           <Droppable droppableId="PILE5" direction="horizontal">
             {provided => (
-              <div className="game-body" ref={provided.innerRef} {...provided.droppableProps}>
-                <div>{game.pile5.filter((item, index, pile5) => item.faceDown).length}</div>
-                <div>
+              <div ref={provided.innerRef} {...provided.droppableProps}>
+                <div className="game-body">
                   {game.pile5
                     .filter((item, index, pile5) => !item.faceDown)
                     .filter((item, index, pile5) => index === 0 || index === pile5.length - 1)
                     .map((item, index) => (
                       <Draggable draggableId={item.code} index={index} key={item.code}>
                         {provided => (
+                        <div style={{position: 'absolute', top: `calc(${index} * ${cardOffset})` }}>
                           <img
                             className="game-card"
                             src={require(`../cards/${item.code}.png`)}
@@ -506,6 +495,7 @@ const GameDetails1 = ({ gameType }) => {
                             ref={provided.innerRef}
                             {...provided.dragHandleProps}
                           />
+                          </div>
                         )}
                       </Draggable>
                     ))}
@@ -517,15 +507,15 @@ const GameDetails1 = ({ gameType }) => {
 
           <Droppable droppableId="PILE6" direction="horizontal">
             {provided => (
-              <div className="game-body" ref={provided.innerRef} {...provided.droppableProps}>
-                <div>{game.pile6.filter((item, index, pile6) => item.faceDown).length}</div>
-                <div>
+              <div ref={provided.innerRef} {...provided.droppableProps}>
+                <div className="game-body">
                   {game.pile6
                     .filter((item, index, pile6) => !item.faceDown)
                     .filter((item, index, pile6) => index === 0 || index === pile6.length - 1)
                     .map((item, index) => (
                       <Draggable draggableId={item.code} index={index} key={item.code}>
                         {provided => (
+                        <div style={{position: 'absolute', top: `calc(${index} * ${cardOffset})` }}>
                           <img
                             className="game-card"
                             src={require(`../cards/${item.code}.png`)}
@@ -534,6 +524,7 @@ const GameDetails1 = ({ gameType }) => {
                             ref={provided.innerRef}
                             {...provided.dragHandleProps}
                           />
+                          </div>
                         )}
                       </Draggable>
                     ))}
@@ -545,15 +536,15 @@ const GameDetails1 = ({ gameType }) => {
 
           <Droppable droppableId="PILE7" direction="horizontal">
             {provided => (
-              <div className="game-body" ref={provided.innerRef} {...provided.droppableProps}>
-                <div>{game.pile7.filter((item, index, pile7) => item.faceDown).length}</div>
-                <div>
+              <div ref={provided.innerRef} {...provided.droppableProps}>
+                <div className="game-body">
                   {game.pile7
                     .filter((item, index, pile7) => !item.faceDown)
                     .filter((item, index, pile7) => index === 0 || index === pile7.length - 1)
                     .map((item, index) => (
                       <Draggable draggableId={item.code} index={index} key={item.code}>
                         {provided => (
+                        <div style={{position: 'absolute', top: `calc(${index} * ${cardOffset})` }}>
                           <img
                             className="game-card"
                             src={require(`../cards/${item.code}.png`)}
@@ -562,6 +553,7 @@ const GameDetails1 = ({ gameType }) => {
                             ref={provided.innerRef}
                             {...provided.dragHandleProps}
                           />
+                          </div>
                         )}
                       </Draggable>
                     ))}
