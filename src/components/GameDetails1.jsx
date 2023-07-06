@@ -128,16 +128,30 @@ const GameDetails1 = ({ gameType }) => {
   }
 
   const moveCard = (source, target, sourceIndex, workGame) => {
-    let add = workGame[source].slice(sourceIndex, sourceIndex + 1);
-    workGame[source].splice(sourceIndex, 1);
-    workGame[target].splice(workGame[target].length, 0, ...add);
-  };
-
-  const movePile = (source, target, sourceIndex, workGame) => {
+    console.log('moveCard', workGame[source], sourceIndex);
     let add = workGame[source].slice(sourceIndex);
     workGame[source].splice(sourceIndex, add.length);
     workGame[target].splice(workGame[target].length, 0, ...add);
   };
+
+  const moveCards = (source, target, sourceIndex, workGame) => {
+    let add = workGame[source].slice(sourceIndex);
+    workGame[source].splice(sourceIndex, add.length);
+    workGame[target].splice(workGame[target].length, 0, ...add);
+  };
+
+  // const moveCard = (source, target, sourceIndex, workGame) => {
+  //   let add = workGame[source].slice(sourceIndex, sourceIndex + 1);
+  //   workGame[source].splice(sourceIndex, 1);
+  //   workGame[target].splice(workGame[target].length, 0, ...add);
+  // };
+
+  // const movePile = (source, target, sourceIndex, workGame) => {
+  //   console.log('movePile',source, target, sourceIndex)
+  //   let add = workGame[source].slice(sourceIndex);
+  //   workGame[source].splice(sourceIndex, add.length);
+  //   workGame[target].splice(workGame[target].length, 0, ...add);
+  // };
 
   const flipTopCard = (source, workGame) => {
     // does pileN have any faceup cards (if YES stop)
@@ -147,19 +161,21 @@ const GameDetails1 = ({ gameType }) => {
       }
     }
     // does pileN have at least 1 facedowan (if YES continue)
+    let found = false;
     for (let i = 0; i < workGame[source].length; i++) {
       if (workGame[source][i].faceDown === true) {
+        found = true;
         break;
       }
     }
+    if (!found) return;
+
     // turn last faceDown card faceup
-    workGame[source]
-      .filter((item, index, source) => item.faceDown)
-      .map((item, index) => {
-        if (index === workGame[source].length - 1) {
-          item.faceDown = false;
-        }
-      });
+    workGame[source].forEach((item, index) => {
+      if (index === workGame[source].length - 1) {
+        item.faceDown = false;
+      }
+    });
   };
 
   const onDragEnd = result => {
@@ -182,21 +198,40 @@ const GameDetails1 = ({ gameType }) => {
     //    if needs to recognize when last card in array was moved
     //    else needs to recognize when non last card was moved
 
-    if (source.index === 1) {
-      moveCard(
-        source.droppableId.toLowerCase(),
-        destination.droppableId.toLowerCase(),
-        workGame[source.droppableId.toLowerCase()].length - 1,
-        workGame
-      );
-    } else {
-      movePile(
-        source.droppableId.toLowerCase(),
-        destination.droppableId.toLowerCase(),
-        workGame[source.droppableId.toLowerCase()].length - 1,
-        workGame
-      );
+    // if (workGame[source.droppableId.toLowerCase()]
+    //   .filter((item, index, pile1) => !item.faceDown).length - 1 === source.index) {
+    //   console.log(workGame[source.droppableId.toLowerCase()])
+    //   moveCard(
+    //     source.droppableId.toLowerCase(),
+    //     destination.droppableId.toLowerCase(),
+    //     workGame[source.droppableId.toLowerCase()].length - 1,
+    //     workGame
+    //   )
+    // } else {
+    //   console.log('movePile')
+    //   movePile(
+    //     source.droppableId.toLowerCase(),
+    //     destination.droppableId.toLowerCase(),
+    //     source.index,
+    //     workGame
+    //   );
+    // }
+
+    let numFaceDown = 0;
+    if (source.droppableId.includes('PILE')) {
+      workGame[source.droppableId.toLowerCase()].forEach((item, index) => {
+        if (item.faceDown) {
+          numFaceDown = numFaceDown + 1;
+        }
+      });
     }
+
+    moveCards(
+      source.droppableId.toLowerCase(),
+      destination.droppableId.toLowerCase(),
+      source.index + numFaceDown,
+      workGame
+    );
 
     // Turn card face up if none are currently face up
     if (source.droppableId.includes('PILE')) {
@@ -461,7 +496,7 @@ const GameDetails1 = ({ gameType }) => {
             {provided => (
               <div ref={provided.innerRef} {...provided.droppableProps}>
                 <div className="game-body">
-                  {game.pile3.filter((item, index, pile3) => item.faceDown).length > 0 ? (
+                  {game.pile4.filter((item, index, pile4) => item.faceDown).length > 0 ? (
                     <div>
                       <img className="game-card" src={require(`../cards-other/BACK.png`)} alt="" />
                     </div>
@@ -494,7 +529,7 @@ const GameDetails1 = ({ gameType }) => {
             {provided => (
               <div ref={provided.innerRef} {...provided.droppableProps}>
                 <div className="game-body">
-                {game.pile5.filter((item, index, pile5) => item.faceDown).length > 0 ? (
+                  {game.pile5.filter((item, index, pile5) => item.faceDown).length > 0 ? (
                     <div>
                       <img className="game-card" src={require(`../cards-other/BACK.png`)} alt="" />
                     </div>
@@ -527,7 +562,7 @@ const GameDetails1 = ({ gameType }) => {
             {provided => (
               <div ref={provided.innerRef} {...provided.droppableProps}>
                 <div className="game-body">
-                {game.pile6.filter((item, index, pile6) => item.faceDown).length > 0 ? (
+                  {game.pile6.filter((item, index, pile6) => item.faceDown).length > 0 ? (
                     <div>
                       <img className="game-card" src={require(`../cards-other/BACK.png`)} alt="" />
                     </div>
@@ -560,7 +595,7 @@ const GameDetails1 = ({ gameType }) => {
             {provided => (
               <div ref={provided.innerRef} {...provided.droppableProps}>
                 <div className="game-body">
-                {game.pile7.filter((item, index, pile7) => item.faceDown).length > 0 ? (
+                  {game.pile7.filter((item, index, pile7) => item.faceDown).length > 0 ? (
                     <div>
                       <img className="game-card" src={require(`../cards-other/BACK.png`)} alt="" />
                     </div>

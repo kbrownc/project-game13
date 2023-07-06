@@ -46,7 +46,7 @@ button {
   display: flex;
   flex-direction: row;
   margin: 2px;
-  width: 70px;
+  width: 100px;
 }
 .game-body-col {
   display: flex;
