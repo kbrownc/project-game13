@@ -8,7 +8,6 @@ const Navbar = ({ gameType, setGameType }) => {
   return (
     <div className="navbar">
       <div className="navbar">Current Game: {gameType}</div>
-      <button>Restart</button>
       <button onClick={() => switchGameButton()}>Switch Game</button>
     </div>
   );

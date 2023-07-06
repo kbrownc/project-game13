@@ -127,31 +127,11 @@ const GameDetails1 = ({ gameType }) => {
     setGame(workGame);
   }
 
-  const moveCard = (source, target, sourceIndex, workGame) => {
-    console.log('moveCard', workGame[source], sourceIndex);
-    let add = workGame[source].slice(sourceIndex);
-    workGame[source].splice(sourceIndex, add.length);
-    workGame[target].splice(workGame[target].length, 0, ...add);
-  };
-
   const moveCards = (source, target, sourceIndex, workGame) => {
     let add = workGame[source].slice(sourceIndex);
     workGame[source].splice(sourceIndex, add.length);
     workGame[target].splice(workGame[target].length, 0, ...add);
   };
-
-  // const moveCard = (source, target, sourceIndex, workGame) => {
-  //   let add = workGame[source].slice(sourceIndex, sourceIndex + 1);
-  //   workGame[source].splice(sourceIndex, 1);
-  //   workGame[target].splice(workGame[target].length, 0, ...add);
-  // };
-
-  // const movePile = (source, target, sourceIndex, workGame) => {
-  //   console.log('movePile',source, target, sourceIndex)
-  //   let add = workGame[source].slice(sourceIndex);
-  //   workGame[source].splice(sourceIndex, add.length);
-  //   workGame[target].splice(workGame[target].length, 0, ...add);
-  // };
 
   const flipTopCard = (source, workGame) => {
     // does pileN have any faceup cards (if YES stop)
@@ -190,33 +170,13 @@ const GameDetails1 = ({ gameType }) => {
     if (destination.droppableId === source.droppableId && destination.index === source.index) {
       return;
     }
-    // moving cards within and between piles and the DISCARD pile
+    
     let workGame = structuredClone(game);
-    // Source/Target Logic - remove card
 
-    // move 1 card or entire faceup array
-    //    if needs to recognize when last card in array was moved
-    //    else needs to recognize when non last card was moved
+    // Source/Target Logic 
+    // - move 1 card or entire faceup array
 
-    // if (workGame[source.droppableId.toLowerCase()]
-    //   .filter((item, index, pile1) => !item.faceDown).length - 1 === source.index) {
-    //   console.log(workGame[source.droppableId.toLowerCase()])
-    //   moveCard(
-    //     source.droppableId.toLowerCase(),
-    //     destination.droppableId.toLowerCase(),
-    //     workGame[source.droppableId.toLowerCase()].length - 1,
-    //     workGame
-    //   )
-    // } else {
-    //   console.log('movePile')
-    //   movePile(
-    //     source.droppableId.toLowerCase(),
-    //     destination.droppableId.toLowerCase(),
-    //     source.index,
-    //     workGame
-    //   );
-    // }
-
+    // How many facedown cards are in pile
     let numFaceDown = 0;
     if (source.droppableId.includes('PILE')) {
       workGame[source.droppableId.toLowerCase()].forEach((item, index) => {
@@ -226,6 +186,7 @@ const GameDetails1 = ({ gameType }) => {
       });
     }
 
+    // Move card(s)
     moveCards(
       source.droppableId.toLowerCase(),
       destination.droppableId.toLowerCase(),
