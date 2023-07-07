@@ -114,6 +114,7 @@ const GameDetails1 = ({ gameType }) => {
     workGame.msg = ' ';
     if (workDeck.length < 1) {
       workDeck = workGame.discard;
+      workGame.discard = []
       workGame.msg = 'Deck refreshed';
     }
     let i = 0;
