@@ -27,7 +27,7 @@ const GameDetails1 = ({ gameType }) => {
     workGame.ace3 = [];
     workGame.ace4 = [];
     workGame.discard = [];
-    workGame.msg = '*************Start Game*************';
+    workGame.msg = 'Start Game';
     let card;
     let i = 0;
     while (i < 1) {
@@ -111,8 +111,10 @@ const GameDetails1 = ({ gameType }) => {
     let card;
     let workGame = structuredClone(game);
     let workDeck = JSON.parse(JSON.stringify(game.remDeck));
+    workGame.msg = ' ';
     if (workDeck.length < 1) {
       workDeck = workGame.discard;
+      workGame.msg = 'Deck refreshed';
     }
     let i = 0;
     while (i < numberOfCards && workDeck.length > 0) {
@@ -175,6 +177,7 @@ const GameDetails1 = ({ gameType }) => {
 
     // Source/Target Logic 
     // - move 1 card or entire faceup array
+    // - for DISCARD pile only move last card in array
 
     // How many facedown cards are in pile
     let numFaceDown = 0;
@@ -187,12 +190,19 @@ const GameDetails1 = ({ gameType }) => {
     }
 
     // Move card(s)
-    moveCards(
+    if (source.droppableId === 'DISCARD') {
+      moveCards(
+      source.droppableId.toLowerCase(),
+      destination.droppableId.toLowerCase(),
+      workGame[source.droppableId.toLowerCase()].length - 1,
+      workGame)
+    } else {
+      moveCards(
       source.droppableId.toLowerCase(),
       destination.droppableId.toLowerCase(),
       source.index + numFaceDown,
-      workGame
-    );
+      workGame)
+    }
 
     // Turn card face up if none are currently face up
     if (source.droppableId.includes('PILE')) {
