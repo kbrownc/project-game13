@@ -222,9 +222,6 @@ const GameDetails4 = ({ gameType }) => {
   return (
     <div className="game-content">
       <DragDropContext onDragEnd={onDragEnd}>
-        <div className="game-header1">
-          <span>** Game 4 - Solataire TEST **</span>
-        </div>
 
         <div className="game-body game-relative">
           <Droppable droppableId="PILE1" direction="horizontal">

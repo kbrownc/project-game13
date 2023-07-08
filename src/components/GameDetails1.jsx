@@ -191,7 +191,8 @@ const GameDetails1 = ({ gameType }) => {
     }
 
     // Move card(s)
-    if (source.droppableId === 'DISCARD') {
+    if (source.droppableId === 'DISCARD' ||
+        source.droppableId.includes('ACE')) {
       moveCards(
       source.droppableId.toLowerCase(),
       destination.droppableId.toLowerCase(),
@@ -220,14 +221,14 @@ const GameDetails1 = ({ gameType }) => {
     <div className="game-content container2">
       <DragDropContext onDragEnd={onDragEnd}>
         <div className="game-header1">
-          <span>** Game 1 - Solataire **</span>
+          <span>Solataire</span>
         </div>
-        <div className="game-header2">
+        <div>
           <button className="game-startButton" onClick={() => redealButtonPressed(initializeGame)}>
             Redeal
           </button>
+          <span> {game.msg}</span>
         </div>
-        <div className="game-msg">{game.msg}</div>
 
         <div className="game-body game-width">
           <div className="game-card-aces">

@@ -45,9 +45,7 @@ const GameDetails2 = ({ gameType }) => {
 
   return (
     <div className="game-content">
-        <div className="game-header1">
-          <span>** Game 2 - 4-pile **</span>
-        </div>  
+        
     </div>
   );
 };

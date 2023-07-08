@@ -13,12 +13,13 @@
   align-items: center;
   min-height: 80vh;
   border: 1px solid gray;
-  padding: 10px;
+  padding: 5px;
   font-size: 20px;
   color: white;
 }
 .game-content {
   width: 720px;
+  height: 400px;
 }
 button {
   margin: 0 2px;
@@ -26,21 +27,27 @@ button {
   border-radius: 20px;
   border: none;
   font-weight: bold;
+  background-color: blue;
+  color: white;
+}
+.game-header1 {
+  color: white;
+  width: 75px;
+  margin: auto;
 }
 .game-card {
   display: flex;
-  width: 70px;
-  height: 100px;
+  width: 65px;
+  height: 90px;
   margin: 5px;
   padding: 5px;
-  min-width: 70px;
-  min-height: 100px;
+ 
 }
 .game-card-aces {
   display: flex;
   border: solid;
   width: 400px;
-  height: 120px;
+  height: 110px;
 }
 .game-body {
   display: flex;
