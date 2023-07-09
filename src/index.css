@@ -43,7 +43,7 @@ button {
   padding: 5px;
  
 }
-.game-card-aces {
+.game-card-ace {
   display: flex;
   border: solid;
   width: 400px;
@@ -68,4 +68,8 @@ button {
 }
 .game-width {
   width: 580px;
+}
+.modal-button {
+  background-color: red;
+  margin: 20px;
 }

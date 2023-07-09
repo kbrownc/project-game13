@@ -3,7 +3,7 @@ import React from 'react';
 const Navbar = ({ gameType, setGameType }) => {
 
   function switchGameButton() {
-    setGameType(null);
+    setGameType(0);
   }
 
   return (

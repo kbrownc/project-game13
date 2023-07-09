@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
 
 function SelectGame({ gameType, setGameType }) {
-  const [selectedGameIds, setSelectedGameIds] = useState([]);
+  console.log('selectGame gameType',gameType)
+  const [selectedGameIds, setSelectedGameIds] = useState([gameType]);
   const gameList = [{ id: 1, name: "Standard"},
                     { id: 2, name: "4-pile"},
                     { id: 3, name: "Triangle"},
-                    { id: 4, name: "1-pile"}]
+                    { id: 4, name: "1-pile"}];
+  
+  // if (selectedGameIds[0] === 0) {
+  //     setGameType(1);
+  //     console.log('selectedGameIds',selectedGameIds)
+  //   }
 
   function handleSubmit(e) {
     if (selectedGameIds.length > 0) {
@@ -41,7 +47,7 @@ function SelectGame({ gameType, setGameType }) {
               </div>
             ))}
             <button type="submit" className="modal-button">
-              Select
+              SELECT
             </button>
           </form>
         </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import SelectGame from './SelectGame';
 import GameDetails1 from './GameDetails1';
 import GameDetails2 from './GameDetails2';
@@ -6,6 +6,7 @@ import GameDetails3 from './GameDetails3';
 import GameDetails4 from './GameDetails4';
 
 const Game = ({gameType, setGameType}) => {
+  console.log('game gameType',gameType)
 
   const gameBoard = (
     gameType === 1
@@ -19,7 +20,7 @@ const Game = ({gameType, setGameType}) => {
     : <h2>Game under construction</h2>
   );
 
-  return !gameType ? (
+  return (gameType === 0) ? (
     <SelectGame gameType={gameType} setGameType={setGameType} /> )
   : (
     gameBoard

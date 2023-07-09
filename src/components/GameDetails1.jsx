@@ -231,7 +231,7 @@ const GameDetails1 = ({ gameType }) => {
         </div>
 
         <div className="game-body game-width">
-          <div className="game-card-aces">
+          <div className="game-card-ace">
             <Droppable droppableId="ACE1" direction="horizontal">
               {provided => (
                 <div className="game-body" ref={provided.innerRef} {...provided.droppableProps}>
