@@ -6,7 +6,6 @@ import GameDetails3 from './GameDetails3';
 import GameDetails4 from './GameDetails4';
 
 const Game = ({gameType, setGameType}) => {
-  console.log('game gameType',gameType)
 
   const gameBoard = (
     gameType === 1

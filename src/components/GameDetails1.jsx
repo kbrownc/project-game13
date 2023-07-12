@@ -3,7 +3,7 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { createDeck } from '../common/Deck';
 import { redealButtonPressed } from '../common/Buttons';
 
-const GameDetails1 = ({ gameType }) => {
+const GameDetails1 = () => {
   const [game, setGame] = useState([]);
   const cardOffset = '35px';
 
@@ -218,10 +218,10 @@ const GameDetails1 = ({ gameType }) => {
   if (game.discard === undefined) return;
 
   return (
-    <div className="game-content container2">
+    <div className="game-content">
       <DragDropContext onDragEnd={onDragEnd}>
         <div className="game-header1">
-          <span>Solataire</span>
+          <span>Solitaire</span>
         </div>
         <div>
           <button className="game-startButton" onClick={() => redealButtonPressed(initializeGame)}>
@@ -342,7 +342,9 @@ const GameDetails1 = ({ gameType }) => {
               <div className="game-body" ref={provided.innerRef} {...provided.droppableProps}>
                 <div className="game-body">
                   <div onClick={drawCardButtonPressed}>
+                  {game.remDeck.length + game.discard.length > 0 ?
                     <img src={require('../cards-other/BACK.png')} alt="" className="game-card" />
+                    : null }
                   </div>
                   {game.discard
                     .filter((item, index, discard) => index === discard.length - 1)
@@ -372,9 +374,6 @@ const GameDetails1 = ({ gameType }) => {
             {provided => (
               <div ref={provided.innerRef} {...provided.droppableProps}>
                 <div className="game-body">
-                  {game.pile1.filter((item, index, pile1) => item.faceDown).length > 0 ? (
-                    <img className="game-card" src={require(`../cards-other/BACK.png`)} alt="" />
-                  ) : null}
                   {game.pile1
                     .filter((item, index, pile1) => !item.faceDown)
                     .map((item, index) => (

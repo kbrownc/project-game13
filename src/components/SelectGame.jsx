@@ -1,17 +1,11 @@
 import React, { useState } from 'react';
 
 function SelectGame({ gameType, setGameType }) {
-  console.log('selectGame gameType',gameType)
   const [selectedGameIds, setSelectedGameIds] = useState([gameType]);
-  const gameList = [{ id: 1, name: "Standard"},
+  const gameList = [{ id: 1, name: "Solitaire"},
                     { id: 2, name: "4-pile"},
                     { id: 3, name: "Triangle"},
                     { id: 4, name: "1-pile"}];
-  
-  // if (selectedGameIds[0] === 0) {
-  //     setGameType(1);
-  //     console.log('selectedGameIds',selectedGameIds)
-  //   }
 
   function handleSubmit(e) {
     if (selectedGameIds.length > 0) {
