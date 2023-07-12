@@ -234,7 +234,7 @@ const GameDetails1 = () => {
           <div className="game-card-ace">
             <Droppable droppableId="ACE1" direction="horizontal">
               {provided => (
-                <div className="game-body" ref={provided.innerRef} {...provided.droppableProps}>
+                <div ref={provided.innerRef} {...provided.droppableProps}>
                   <div className="game-body">
                     {game.ace1
                       .filter((item, index, ace1) => index === ace1.length - 1)
@@ -260,7 +260,7 @@ const GameDetails1 = () => {
 
             <Droppable droppableId="ACE2" direction="horizontal">
               {provided => (
-                <div className="game-body" ref={provided.innerRef} {...provided.droppableProps}>
+                <div ref={provided.innerRef} {...provided.droppableProps}>
                   <div className="game-body">
                     {game.ace2
                       .filter((item, index, ace2) => index === ace2.length - 1)
@@ -286,7 +286,7 @@ const GameDetails1 = () => {
 
             <Droppable droppableId="ACE3" direction="horizontal">
               {provided => (
-                <div className="game-body" ref={provided.innerRef} {...provided.droppableProps}>
+                <div ref={provided.innerRef} {...provided.droppableProps}>
                   <div className="game-body">
                     {game.ace3
                       .filter((item, index, ace3) => index === ace3.length - 1)
@@ -312,7 +312,7 @@ const GameDetails1 = () => {
 
             <Droppable droppableId="ACE4" direction="horizontal">
               {provided => (
-                <div className="game-body" ref={provided.innerRef} {...provided.droppableProps}>
+                <div ref={provided.innerRef} {...provided.droppableProps}>
                   <div className="game-body">
                     {game.ace4
                       .filter((item, index, ace4) => index === ace4.length - 1)
@@ -339,7 +339,7 @@ const GameDetails1 = () => {
 
           <Droppable droppableId="DISCARD" direction="horizontal">
             {provided => (
-              <div className="game-body" ref={provided.innerRef} {...provided.droppableProps}>
+              <div ref={provided.innerRef} {...provided.droppableProps}>
                 <div className="game-body">
                   <div onClick={drawCardButtonPressed}>
                   {game.remDeck.length + game.discard.length > 0 ?

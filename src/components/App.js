@@ -3,7 +3,7 @@ import Navbar from './Navbar';
 import Game from './Game';
 
 function App() {
-  const [gameType, setGameType] = useState(0);
+  const [gameType, setGameType] = useState(2);
 
   return (
     <div className="app">

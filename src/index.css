@@ -54,14 +54,6 @@ button {
   margin: 2px;
   width: 100px;
 }
-.game-body-col {
-  display: flex;
-  flex-direction: column;
-  margin: 2px;
-}
-.game-body-ab {
-  position: absolute;
-}
 .game-relative {
   position: relative;
 }
