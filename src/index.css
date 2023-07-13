@@ -1,3 +1,4 @@
+/* Common and Game 1 CSS */
 .app {
   display: flex;
   justify-content: center;
@@ -13,7 +14,7 @@
   align-items: center;
   min-height: 90vh;
   border: 1px solid gray;
-  padding: 5px;
+  padding: 2px;
   font-size: 20px;
   color: white;
 }
@@ -22,7 +23,7 @@
 }
 button {
   margin: 0 2px;
-  padding: 5px;
+  padding: 2px;
   border-radius: 20px;
   border: none;
   font-weight: bold;
@@ -38,8 +39,8 @@ button {
   display: flex;
   width: 65px;
   height: 90px;
-  margin: 5px;
-  padding: 5px;
+  margin: 2px;
+  padding: 2px;
  
 }
 .game-card-ace {
@@ -63,4 +64,11 @@ button {
 .modal-button {
   background-color: red;
   margin: 20px;
+}
+/* Game 2 CSS */
+.game-body-column {
+  display: flex;
+  flex-direction: column;
+  margin: 1px;
+  width: 100px;
 }
