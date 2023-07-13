@@ -29,78 +29,21 @@ const GameDetails1 = () => {
     workGame.discard = [];
     workGame.msg = 'Start Game';
     let card;
-    let i = 0;
-    while (i < 1) {
-      card = workDeck.pop();
-      workGame.pile1.push(card);
-      workGame.pile1[i].faceDown = false;
-      i++;
-    }
-    i = 0;
-    while (i < 2) {
-      card = workDeck.pop();
-      workGame.pile2.push(card);
-      if (i < 1) {
-        workGame.pile2[i].faceDown = true;
-      } else {
-        workGame.pile2[i].faceDown = false;
+    let j = 1;
+    let i;
+    while (j < 8) {
+      i = 0;
+      while (i < j) {
+        card = workDeck.pop();
+        workGame['pile' + j].push(card);
+        if (i < j - 1) {
+          workGame['pile' + j][i].faceDown = true;
+        } else {
+          workGame['pile' + j][i].faceDown = false;
+        }
+        i++;
       }
-      i++;
-    }
-    i = 0;
-    while (i < 3) {
-      card = workDeck.pop();
-      workGame.pile3.push(card);
-      if (i < 2) {
-        workGame.pile3[i].faceDown = true;
-      } else {
-        workGame.pile3[i].faceDown = false;
-      }
-      i++;
-    }
-    i = 0;
-    while (i < 4) {
-      card = workDeck.pop();
-      workGame.pile4.push(card);
-      if (i < 3) {
-        workGame.pile4[i].faceDown = true;
-      } else {
-        workGame.pile4[i].faceDown = false;
-      }
-      i++;
-    }
-    i = 0;
-    while (i < 5) {
-      card = workDeck.pop();
-      workGame.pile5.push(card);
-      if (i < 4) {
-        workGame.pile5[i].faceDown = true;
-      } else {
-        workGame.pile5[i].faceDown = false;
-      }
-      i++;
-    }
-    i = 0;
-    while (i < 6) {
-      card = workDeck.pop();
-      workGame.pile6.push(card);
-      if (i < 5) {
-        workGame.pile6[i].faceDown = true;
-      } else {
-        workGame.pile6[i].faceDown = false;
-      }
-      i++;
-    }
-    i = 0;
-    while (i < 7) {
-      card = workDeck.pop();
-      workGame.pile7.push(card);
-      if (i < 6) {
-        workGame.pile7[i].faceDown = true;
-      } else {
-        workGame.pile7[i].faceDown = false;
-      }
-      i++;
+      j++;
     }
     workGame.remDeck = workDeck;
     setGame(workGame);
