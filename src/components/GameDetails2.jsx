@@ -42,6 +42,7 @@ const GameDetails2 = () => {
       }
       j++;
     }
+    // Define anchor card
     card = workDeck.pop();
     workGame.pilea.push(card);
     workGame.pilea[0].faceDown = false;
@@ -196,7 +197,7 @@ const GameDetails2 = () => {
                       <div>
                         <img className="game-card" src={require(`../cards-other/BACK.png`)} alt="" />
                       </div>
-                    ) : null}
+                    ) : (<div className="game-card"></div>) }
                     {game.pile1
                       .filter((item, index, pile1) => !item.faceDown)
                       .map((item, index) => (
@@ -258,7 +259,7 @@ const GameDetails2 = () => {
                       <div>
                         <img className="game-card" src={require(`../cards-other/BACK.png`)} alt="" />
                       </div>
-                    ) : null}
+                    ) : (<div className="game-card"></div>)}
                     {game.pile2
                       .filter((item, index, pile2) => !item.faceDown)
                       .map((item, index) => (
@@ -320,7 +321,7 @@ const GameDetails2 = () => {
                       <div>
                         <img className="game-card" src={require(`../cards-other/BACK.png`)} alt="" />
                       </div>
-                    ) : null}
+                    ) : (<div className="game-card"></div>)}
                     {game.pile3
                       .filter((item, index, pile3) => !item.faceDown)
                       .map((item, index) => (
@@ -382,7 +383,7 @@ const GameDetails2 = () => {
                       <div>
                         <img className="game-card" src={require(`../cards-other/BACK.png`)} alt="" />
                       </div>
-                    ) : null}
+                    ) : (<div className="game-card"></div>)}
                     {game.pile4
                       .filter((item, index, pile4) => !item.faceDown)
                       .map((item, index) => (
