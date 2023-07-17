@@ -4,8 +4,8 @@ function SelectGame({ gameType, setGameType }) {
   const [selectedGameIds, setSelectedGameIds] = useState([gameType]);
   const gameList = [{ id: 1, name: "Solitaire"},
                     { id: 2, name: "4-pile"},
-                    { id: 3, name: "Triangle"},
-                    { id: 4, name: "1-pile"}];
+                    { id: 3, name: "1-pile"},
+                    { id: 4, name: "Triangle"}];
 
   function handleSubmit(e) {
     if (selectedGameIds.length > 0) {

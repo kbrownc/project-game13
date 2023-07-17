@@ -124,11 +124,11 @@ const GameDetails2 = () => {
     // Source/Target Logic - Move card(s)
 
     moveCards(
-        source.droppableId.toLowerCase(),
-        destination.droppableId.toLowerCase(),
-        workGame[source.droppableId.toLowerCase()].length - 1,
-        workGame
-      );
+      source.droppableId.toLowerCase(),
+      destination.droppableId.toLowerCase(),
+      workGame[source.droppableId.toLowerCase()].length - 1,
+      workGame
+    );
 
     // Turn card face up if none are currently face up
     if (source.droppableId.includes('PILE')) {
@@ -190,14 +190,19 @@ const GameDetails2 = () => {
         <div className="game-body-column game-relative">
           <div className="game-body">
             <Droppable droppableId="PILE1" direction="horizontal">
-              {provided => (
+              {(provided, snapshot) => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
-                  <div className="game-body">
+                  <div
+                    className="game-body"
+                    style={{ backgroundColor: snapshot.isDraggingOver ? 'blue' : 'white' }}
+                  >
                     {game.pile1.filter((item, index, pile1) => item.faceDown).length > 0 ? (
                       <div>
                         <img className="game-card" src={require(`../cards-other/BACK.png`)} alt="" />
                       </div>
-                    ) : (<div className="game-card"></div>) }
+                    ) : (
+                      <div className="game-card"></div>
+                    )}
                     {game.pile1
                       .filter((item, index, pile1) => !item.faceDown)
                       .map((item, index) => (
@@ -252,14 +257,19 @@ const GameDetails2 = () => {
         <div className="game-body-column game-relative">
           <div className="game-body">
             <Droppable droppableId="PILE2" direction="horizontal">
-              {provided => (
+              {(provided, snapshot) => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
-                  <div className="game-body">
+                  <div
+                    className="game-body"
+                    style={{ backgroundColor: snapshot.isDraggingOver ? 'blue' : 'pink' }}
+                  >
                     {game.pile2.filter((item, index, pile2) => item.faceDown).length > 0 ? (
                       <div>
                         <img className="game-card" src={require(`../cards-other/BACK.png`)} alt="" />
                       </div>
-                    ) : (<div className="game-card"></div>)}
+                    ) : (
+                      <div className="game-card"></div>
+                    )}
                     {game.pile2
                       .filter((item, index, pile2) => !item.faceDown)
                       .map((item, index) => (
@@ -314,14 +324,19 @@ const GameDetails2 = () => {
         <div className="game-body-column game-relative">
           <div className="game-body">
             <Droppable droppableId="PILE3" direction="horizontal">
-              {provided => (
+              {(provided, snapshot) => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
-                  <div className="game-body">
+                  <div
+                    className="game-body"
+                    style={{ backgroundColor: snapshot.isDraggingOver ? 'blue' : 'pink' }}
+                  >
                     {game.pile3.filter((item, index, pile3) => item.faceDown).length > 0 ? (
                       <div>
                         <img className="game-card" src={require(`../cards-other/BACK.png`)} alt="" />
                       </div>
-                    ) : (<div className="game-card"></div>)}
+                    ) : (
+                      <div className="game-card"></div>
+                    )}
                     {game.pile3
                       .filter((item, index, pile3) => !item.faceDown)
                       .map((item, index) => (
@@ -376,14 +391,19 @@ const GameDetails2 = () => {
         <div className="game-body-column game-relative">
           <div className="game-body">
             <Droppable droppableId="PILE4" direction="horizontal">
-              {provided => (
+              {(provided, snapshot) => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
-                  <div className="game-body">
+                  <div
+                    className="game-body"
+                    style={{ backgroundColor: snapshot.isDraggingOver ? 'blue' : 'pink' }}
+                  >
                     {game.pile4.filter((item, index, pile4) => item.faceDown).length > 0 ? (
                       <div>
                         <img className="game-card" src={require(`../cards-other/BACK.png`)} alt="" />
                       </div>
-                    ) : (<div className="game-card"></div>)}
+                    ) : (
+                      <div className="game-card"></div>
+                    )}
                     {game.pile4
                       .filter((item, index, pile4) => !item.faceDown)
                       .map((item, index) => (
@@ -434,7 +454,6 @@ const GameDetails2 = () => {
             </Droppable>
           </div>
         </div>
-
       </DragDropContext>
     </div>
   );

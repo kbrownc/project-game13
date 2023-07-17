@@ -5,7 +5,7 @@
   align-items: center;
   min-height: 100vh;
   width: 100%;
-  background-color: #282c34;
+  background-color: #282c34; 
   background-size: 100% 100%;
 }
 .container {
@@ -19,7 +19,7 @@
   color: white;
 }
 .game-content {
-  width: 720px;
+  width: 725px;
 }
 button {
   margin: 0 2px;
@@ -54,6 +54,7 @@ button {
   flex-direction: row;
   margin: 2px;
   width: 100px;
+  padding: 2px;
 }
 .game-relative {
   position: relative;
