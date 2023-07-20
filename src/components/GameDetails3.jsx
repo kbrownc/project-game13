@@ -154,10 +154,7 @@ const GameDetails3 = () => {
             <Droppable droppableId="PILE1" direction="horizontal">
               {(provided, snapshot) => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
-                  <div
-                    className="game-body"
-                    style={{ backgroundColor: snapshot.isDraggingOver ? 'blue' : 'black' }}
-                  >
+                  <div className="game-body">
                     <div>
                       <img className="game-card" src={require(`../cards-other/BACK.png`)} alt="" />
                     </div>
@@ -216,7 +213,7 @@ const GameDetails3 = () => {
               </div>
             )}
           </Droppable>
-          <div>{game.discard.length}</div>
+          <div>{game.discard.length} cards removed</div>
         </div>
       </DragDropContext>
     </div>

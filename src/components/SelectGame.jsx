@@ -46,6 +46,12 @@ function SelectGame({ gameType, setGameType }) {
           </form>
         </div>
       </div>
+      <div className="modal-content">
+        <h2>Instructions</h2>
+        <p>Select one of solitaire games listed</p>
+        <p>above and hit the select button.</p>
+        <p>Selected game is not saved for the next time you play.</p>
+      </div>
     </div>
   )
 }
