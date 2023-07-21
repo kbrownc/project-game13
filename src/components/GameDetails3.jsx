@@ -50,7 +50,6 @@ const GameDetails3 = () => {
   }
 
   const moveCards = (source, target, sourceIndex, workGame, removeEnd) => {
-    console.log(source, target, sourceIndex, removeEnd);
     let add = workGame[source].slice(sourceIndex, removeEnd);
     workGame[source].splice(sourceIndex, add.length);
     workGame[target].splice(workGame[target].length, 0, ...add);
@@ -99,7 +98,6 @@ const GameDetails3 = () => {
     // Source/Target Logic - Move card(s)
 
     let removeEnd;
-    console.log(workGame.pile1, source.index, workGame.pile1.length);
     if (source.index === workGame.pile1.length - 3) {
       // internal 2 cards
       removeEnd = source.index + 2;
