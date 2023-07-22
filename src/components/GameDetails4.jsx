@@ -151,7 +151,13 @@ const GameDetails4 = () => {
                     {game.row1.map((item, index) => (
                       <Draggable draggableId={item.code} index={index} key={item.code}>
                         {provided => (
-                          <div style={{ position: 'absolute', left: `calc(${index + 4} * ${cardOffset})` }}>
+                          <div
+                            style={{
+                              position: 'absolute',
+                              top: 5,
+                              left: `calc(${index + 4} * ${cardOffset})`,
+                            }}
+                          >
                             <img
                               className="game-card"
                               src={require(`../cards/${item.code}.png`)}
@@ -181,7 +187,13 @@ const GameDetails4 = () => {
                     {game.row2.map((item, index) => (
                       <Draggable draggableId={item.code} index={index} key={item.code}>
                         {provided => (
-                          <div style={{ position: 'absolute', left: `calc(${index + 3.5} * ${cardOffset})` }}>
+                          <div
+                            style={{
+                              position: 'absolute',
+                              top: 20,
+                              left: `calc(${index + 3.5} * ${cardOffset})`,
+                            }}
+                          >
                             <img
                               className="game-card"
                               src={require(`../cards/${item.code}.png`)}
@@ -211,7 +223,13 @@ const GameDetails4 = () => {
                     {game.row3.map((item, index) => (
                       <Draggable draggableId={item.code} index={index} key={item.code}>
                         {provided => (
-                          <div style={{ position: 'absolute', left: `calc(${index + 3} * ${cardOffset})` }}>
+                          <div
+                            style={{
+                              position: 'absolute',
+                              top: 35,
+                              left: `calc(${index + 3} * ${cardOffset})`,
+                            }}
+                          >
                             <img
                               className="game-card"
                               src={require(`../cards/${item.code}.png`)}
@@ -241,7 +259,13 @@ const GameDetails4 = () => {
                     {game.row4.map((item, index) => (
                       <Draggable draggableId={item.code} index={index} key={item.code}>
                         {provided => (
-                          <div style={{ position: 'absolute', left: `calc(${index + 2.5} * ${cardOffset})` }}>
+                          <div
+                            style={{
+                              position: 'absolute',
+                              top: 50,
+                              left: `calc(${index + 2.5} * ${cardOffset})`,
+                            }}
+                          >
                             <img
                               className="game-card"
                               src={require(`../cards/${item.code}.png`)}
@@ -271,7 +295,13 @@ const GameDetails4 = () => {
                     {game.row5.map((item, index) => (
                       <Draggable draggableId={item.code} index={index} key={item.code}>
                         {provided => (
-                          <div style={{ position: 'absolute', left: `calc(${index + 2} * ${cardOffset})` }}>
+                          <div
+                            style={{
+                              position: 'absolute',
+                              top: 65,
+                              left: `calc(${index + 2} * ${cardOffset})`,
+                            }}
+                          >
                             <img
                               className="game-card"
                               src={require(`../cards/${item.code}.png`)}
@@ -301,7 +331,13 @@ const GameDetails4 = () => {
                     {game.row6.map((item, index) => (
                       <Draggable draggableId={item.code} index={index} key={item.code}>
                         {provided => (
-                          <div style={{ position: 'absolute', left: `calc(${index + 1.5} * ${cardOffset})` }}>
+                          <div
+                            style={{
+                              position: 'absolute',
+                              top: 80,
+                              left: `calc(${index + 1.5} * ${cardOffset})`,
+                            }}
+                          >
                             <img
                               className="game-card"
                               src={require(`../cards/${item.code}.png`)}
@@ -331,7 +367,13 @@ const GameDetails4 = () => {
                     {game.row7.map((item, index) => (
                       <Draggable draggableId={item.code} index={index} key={item.code}>
                         {provided => (
-                          <div style={{ position: 'absolute', left: `calc(${index + 1} * ${cardOffset})` }}>
+                          <div
+                            style={{
+                              position: 'absolute',
+                              top: 95,
+                              left: `calc(${index + 1} * ${cardOffset})`,
+                            }}
+                          >
                             <img
                               className="game-card"
                               src={require(`../cards/${item.code}.png`)}
@@ -352,12 +394,14 @@ const GameDetails4 = () => {
           </div>
         </div>
 
-        <div>
+        <div className="game-body-column game-relative">
           <Droppable droppableId="DISCARD" direction="horizontal">
             {provided => (
               <div ref={provided.innerRef} {...provided.droppableProps}>
-                <div className="game-body game-discard" 
-                    style={{ position: 'absolute', left: `calc(1 * ${cardOffset})` }}>
+                <div
+                  className="game-body game-discard"
+                  style={{ position: 'absolute', top: 200, left: `calc(1 * ${cardOffset})` }}
+                >
                   <div onClick={drawCardButtonPressed}>
                     {game.remDeck.length > 0 ? (
                       <img src={require('../cards-other/BACK.png')} alt="" className="game-card" />
@@ -381,6 +425,9 @@ const GameDetails4 = () => {
                     ))}
                   {provided.placeholder}
                 </div>
+                <span style={{ position: 'absolute', top: 200, left: `calc(3.5 * ${cardOffset})` }}>
+                  {game.remDeck.length}
+                </span>
               </div>
             )}
           </Droppable>
