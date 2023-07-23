@@ -74,7 +74,7 @@ button {
   border: 1px solid red;
   margin: 10px;
 }
-/* Game 2 CSS */
+/* Game 2-4 CSS */
 .game-body-column {
   display: flex;
   flex-direction: column;
@@ -84,4 +84,10 @@ button {
 .game-discard {
   border: 2px solid orange;
   width: 150px;
+}
+/* Game 4 CSS */
+.game-discard2 {
+  border: 2px solid orange;
+  width: 65px;
+  height: 100px;
 }

@@ -23,6 +23,7 @@ const GameDetails4 = () => {
     workGame.row6 = [];
     workGame.row7 = [];
     workGame.discard = [];
+    workGame.discard2 = [];
     workGame.msg = 'Start Game';
     let card;
 
@@ -128,6 +129,7 @@ const GameDetails4 = () => {
   };
 
   if (game.discard === undefined) return;
+  console.log(game)
 
   return (
     <div className="game-content">
@@ -432,6 +434,37 @@ const GameDetails4 = () => {
             )}
           </Droppable>
         </div>
+
+        <div className="game-body-column game-relative">
+          <Droppable droppableId="DISCARD2" direction="horizontal">
+            {provided => (
+              <div ref={provided.innerRef} {...provided.droppableProps}>
+                <div
+                  className="game-body game-discard2"
+                  style={{ position: 'absolute', top: 200, left: `calc(4 * ${cardOffset})` }}>
+                  {game.discard2
+                    .filter((item, index, discard) => index === discard.length - 1)
+                    .map((item, index) => (
+                      <Draggable draggableId={item.code} index={index} key={item.code}>
+                        {provided => (
+                          <img
+                            className="game-card"
+                            src={require(`../cards/${item.code}.png`)}
+                            alt=""
+                            {...provided.draggableProps}
+                            ref={provided.innerRef}
+                            {...provided.dragHandleProps}
+                          />
+                        )}
+                      </Draggable>
+                    ))}
+                  {provided.placeholder}
+                </div>
+              </div>
+            )}
+          </Droppable>
+        </div>
+
       </DragDropContext>
     </div>
   );
