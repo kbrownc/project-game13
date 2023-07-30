@@ -39,6 +39,9 @@ const GameDetails4 = () => {
       j++;
     }
 
+    card = workDeck.pop();
+    workGame.discard2.push(card);
+
     workGame.remDeck = workDeck;
     setGame(workGame);
   }
@@ -65,35 +68,11 @@ const GameDetails4 = () => {
     workGame[target].splice(workGame[target].length, 0, ...add);
   };
 
-  const flipTopCard = (source, workGame) => {
-    // does rowN have any faceup cards (if YES stop)
-    for (let i = 0; i < workGame[source].length; i++) {
-      if (workGame[source][i].faceDown === false) {
-        return;
-      }
-    }
-    // does rowN have at least 1 facedowan (if YES continue)
-    let found = false;
-    for (let i = 0; i < workGame[source].length; i++) {
-      if (workGame[source][i].faceDown === true) {
-        found = true;
-        break;
-      }
-    }
-    if (!found) return;
-
-    // turn last faceDown card faceup
-    workGame[source].forEach((item, index) => {
-      if (index === workGame[source].length - 1) {
-        item.faceDown = false;
-      }
-    });
-  };
-
   const onDragEnd = result => {
     if (!result.destination) return;
     // store where the card was initially and where it was dropped
     const { destination, source } = result;
+    console.log('DND', source,destination);
     // make sure there is a change (moved item outside of draggable context area)
     if (!destination || !source) {
       return;
@@ -107,11 +86,15 @@ const GameDetails4 = () => {
 
     // Source/Target Logic - Move card(s)
 
-    if (workGame.row1.length > 0) {
+    if (
+      source.droppableId.includes('ROW') ||
+      source.droppableId === 'DISCARD' ||
+      source.droppableId === 'DISCARD2'
+    ) {
       moveCards(
         source.droppableId.toLowerCase(),
         destination.droppableId.toLowerCase(),
-        workGame[source.droppableId.toLowerCase()].length - 3,
+        workGame[source.droppableId.toLowerCase()].length - 1,
         workGame
       );
     } else {
@@ -119,17 +102,11 @@ const GameDetails4 = () => {
       workGame.msg = 'Invalid move';
     }
 
-    // Turn card face up if none are currently face up
-    if (source.droppableId.includes('ROW')) {
-      flipTopCard(source.droppableId.toLowerCase(), workGame);
-    }
-
     // update state
     setGame(workGame);
   };
 
   if (game.discard === undefined) return;
-  console.log(game)
 
   return (
     <div className="game-content">
@@ -147,7 +124,7 @@ const GameDetails4 = () => {
         <div className="game-body-column game-relative">
           <div className="game-body">
             <Droppable droppableId="ROW1" direction="horizontal">
-              {(provided, snapshot) => (
+              {provided => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
                   <div className="game-body">
                     {game.row1.map((item, index) => (
@@ -183,7 +160,7 @@ const GameDetails4 = () => {
         <div className="game-body-column game-relative">
           <div className="game-body">
             <Droppable droppableId="ROW2" direction="horizontal">
-              {(provided, snapshot) => (
+              {provided => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
                   <div className="game-body">
                     {game.row2.map((item, index) => (
@@ -219,7 +196,7 @@ const GameDetails4 = () => {
         <div className="game-body-column game-relative">
           <div className="game-body">
             <Droppable droppableId="ROW3" direction="horizontal">
-              {(provided, snapshot) => (
+              {provided => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
                   <div className="game-body">
                     {game.row3.map((item, index) => (
@@ -255,7 +232,7 @@ const GameDetails4 = () => {
         <div className="game-body-column game-relative">
           <div className="game-body">
             <Droppable droppableId="ROW4" direction="horizontal">
-              {(provided, snapshot) => (
+              {provided => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
                   <div className="game-body">
                     {game.row4.map((item, index) => (
@@ -291,7 +268,7 @@ const GameDetails4 = () => {
         <div className="game-body-column game-relative">
           <div className="game-body">
             <Droppable droppableId="ROW5" direction="horizontal">
-              {(provided, snapshot) => (
+              {provided => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
                   <div className="game-body">
                     {game.row5.map((item, index) => (
@@ -327,7 +304,7 @@ const GameDetails4 = () => {
         <div className="game-body-column game-relative">
           <div className="game-body">
             <Droppable droppableId="ROW6" direction="horizontal">
-              {(provided, snapshot) => (
+              {provided => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
                   <div className="game-body">
                     {game.row6.map((item, index) => (
@@ -363,7 +340,7 @@ const GameDetails4 = () => {
         <div className="game-body-column game-relative">
           <div className="game-body">
             <Droppable droppableId="ROW7" direction="horizontal">
-              {(provided, snapshot) => (
+              {provided => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
                   <div className="game-body">
                     {game.row7.map((item, index) => (
@@ -441,9 +418,10 @@ const GameDetails4 = () => {
               <div ref={provided.innerRef} {...provided.droppableProps}>
                 <div
                   className="game-body game-discard2"
-                  style={{ position: 'absolute', top: 200, left: `calc(4 * ${cardOffset})` }}>
+                  style={{ position: 'absolute', top: 200, left: `calc(4 * ${cardOffset})` }}
+                >
                   {game.discard2
-                    .filter((item, index, discard) => index === discard.length - 1)
+                    .filter((item, index, discard2) => index === discard2.length - 1)
                     .map((item, index) => (
                       <Draggable draggableId={item.code} index={index} key={item.code}>
                         {provided => (
