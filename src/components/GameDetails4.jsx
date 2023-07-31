@@ -39,8 +39,8 @@ const GameDetails4 = () => {
       j++;
     }
 
-    card = workDeck.pop();
-    workGame.discard2.push(card);
+    // card = workDeck.pop();
+    // workGame.discard2.push(card);
 
     workGame.remDeck = workDeck;
     setGame(workGame);
@@ -72,7 +72,6 @@ const GameDetails4 = () => {
     if (!result.destination) return;
     // store where the card was initially and where it was dropped
     const { destination, source } = result;
-    console.log('DND', source,destination);
     // make sure there is a change (moved item outside of draggable context area)
     if (!destination || !source) {
       return;
@@ -119,6 +118,45 @@ const GameDetails4 = () => {
             Redeal
           </button>
           <span> {game.msg}</span>
+        </div>
+
+        <div className="game-body-column game-relative">
+          <Droppable droppableId="DISCARD2" direction="horizontal">
+            {(provided, snapshot) => (
+              <div ref={provided.innerRef} {...provided.droppableProps}>
+                <div
+                  className="game-body game-discard2"
+                  style={{
+                    position: 'absolute',
+                    top: 10,
+                    left: `calc(8 * ${cardOffset})`,
+                    backgroundColor: snapshot.isDraggingOver ? 'pink' : 'green',
+                  }}
+                >
+                  {game.discard2
+                    .filter((item, index, discard2) => index === discard2.length - 1)
+                    .map((item, index) => (
+                      <Draggable draggableId={item.code} index={index} key={item.code}>
+                        {provided => (
+                          <img
+                            className="game-card"
+                            src={require(`../cards/${item.code}.png`)}
+                            alt=""
+                            {...provided.draggableProps}
+                            ref={provided.innerRef}
+                            {...provided.dragHandleProps}
+                          />
+                        )}
+                      </Draggable>
+                    ))}
+                  {provided.placeholder}
+                </div>
+                <span style={{ position: 'absolute', top: 10, left: `calc(9.5 * ${cardOffset})` }}>
+                  {game.discard2.length}
+                </span>
+              </div>
+            )}
+          </Droppable>
         </div>
 
         <div className="game-body-column game-relative">
@@ -375,11 +413,16 @@ const GameDetails4 = () => {
 
         <div className="game-body-column game-relative">
           <Droppable droppableId="DISCARD" direction="horizontal">
-            {provided => (
+            {(provided, snapshot) => (
               <div ref={provided.innerRef} {...provided.droppableProps}>
                 <div
                   className="game-body game-discard"
-                  style={{ position: 'absolute', top: 200, left: `calc(1 * ${cardOffset})` }}
+                  style={{
+                    position: 'absolute',
+                    top: 200,
+                    left: `calc(1 * ${cardOffset})`,
+                    backgroundColor: snapshot.isDraggingOver ? 'blue' : 'white',
+                  }}
                 >
                   <div onClick={drawCardButtonPressed}>
                     {game.remDeck.length > 0 ? (
@@ -412,37 +455,7 @@ const GameDetails4 = () => {
           </Droppable>
         </div>
 
-        <div className="game-body-column game-relative">
-          <Droppable droppableId="DISCARD2" direction="horizontal">
-            {provided => (
-              <div ref={provided.innerRef} {...provided.droppableProps}>
-                <div
-                  className="game-body game-discard2"
-                  style={{ position: 'absolute', top: 200, left: `calc(4 * ${cardOffset})` }}
-                >
-                  {game.discard2
-                    .filter((item, index, discard2) => index === discard2.length - 1)
-                    .map((item, index) => (
-                      <Draggable draggableId={item.code} index={index} key={item.code}>
-                        {provided => (
-                          <img
-                            className="game-card"
-                            src={require(`../cards/${item.code}.png`)}
-                            alt=""
-                            {...provided.draggableProps}
-                            ref={provided.innerRef}
-                            {...provided.dragHandleProps}
-                          />
-                        )}
-                      </Draggable>
-                    ))}
-                  {provided.placeholder}
-                </div>
-              </div>
-            )}
-          </Droppable>
-        </div>
-
+        
       </DragDropContext>
     </div>
   );
