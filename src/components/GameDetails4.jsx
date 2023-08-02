@@ -123,13 +123,12 @@ const GameDetails4 = () => {
         <div className="game-body-column game-relative">
           <Droppable droppableId="DISCARD2" direction="horizontal">
             {(provided, snapshot) => (
-              <div ref={provided.innerRef} {...provided.droppableProps}>
-                <div
+              <div ref={provided.innerRef} {...provided.droppableProps}
                   className="game-body game-discard2"
                   style={{
                     position: 'absolute',
                     top: 10,
-                    left: `calc(8 * ${cardOffset})`,
+                    left: `calc(7.5 * ${cardOffset})`,
                     backgroundColor: snapshot.isDraggingOver ? 'pink' : 'green',
                   }}
                 >
@@ -149,11 +148,10 @@ const GameDetails4 = () => {
                         )}
                       </Draggable>
                     ))}
-                  {provided.placeholder}
+                  {provided.placeholder}           
+                <div style={{ position: 'absolute', top: 0, left: `calc(1 * ${cardOffset})` }}>
+                  Score: {game.discard2.length}
                 </div>
-                <span style={{ position: 'absolute', top: 10, left: `calc(9.5 * ${cardOffset})` }}>
-                  {game.discard2.length}
-                </span>
               </div>
             )}
           </Droppable>
@@ -414,8 +412,7 @@ const GameDetails4 = () => {
         <div className="game-body-column game-relative">
           <Droppable droppableId="DISCARD" direction="horizontal">
             {(provided, snapshot) => (
-              <div ref={provided.innerRef} {...provided.droppableProps}>
-                <div
+              <div ref={provided.innerRef} {...provided.droppableProps}
                   className="game-body game-discard"
                   style={{
                     position: 'absolute',
@@ -446,16 +443,14 @@ const GameDetails4 = () => {
                       </Draggable>
                     ))}
                   {provided.placeholder}
+                <div style={{ position: 'absolute', top: 0, left: `calc(2.2 * ${cardOffset})` }}>
+                  Remaining: {game.remDeck.length}
                 </div>
-                <span style={{ position: 'absolute', top: 200, left: `calc(3.5 * ${cardOffset})` }}>
-                  {game.remDeck.length}
-                </span>
               </div>
             )}
           </Droppable>
         </div>
 
-        
       </DragDropContext>
     </div>
   );
