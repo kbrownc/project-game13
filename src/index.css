@@ -83,7 +83,8 @@ button {
 }
 .game-discard {
   border: 2px solid orange;
-  width: 150px;
+  width: 80px;
+  height: 100px;
 }
 /* Game 4 CSS */
 .game-discard2 {
