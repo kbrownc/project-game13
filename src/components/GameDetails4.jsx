@@ -92,7 +92,7 @@ const GameDetails4 = () => {
         destination.droppableId.toLowerCase(),
         source.index,
         workGame
-      );
+      )
     } else {
       // invalid move (no move of cards)
       workGame.msg = 'Invalid move';
