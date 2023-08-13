@@ -83,14 +83,19 @@ const GameDetails4 = () => {
     // Source/Target Logic - Move card(s)
 
     if (
-      source.droppableId.includes('ROW') ||
-      source.droppableId === 'DISCARD' ||
-      source.droppableId === 'DISCARD2'
+      source.droppableId.includes('ROW')
     ) {
       moveCards(
         source.droppableId.toLowerCase(),
         destination.droppableId.toLowerCase(),
         source.index,
+        workGame
+      )
+    } else  if (source.droppableId === 'DISCARD'){
+      moveCards(
+        source.droppableId.toLowerCase(),
+        destination.droppableId.toLowerCase(),
+        workGame[source.droppableId.toLowerCase()].length - 1,
         workGame
       )
     } else {
