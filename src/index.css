@@ -41,7 +41,14 @@ button {
   height: 90px;
   margin: 2px;
   padding: 2px;
- 
+}
+.game-card-transparant {
+  display: flex;
+  opacity: 0.0;
+  width: 65px;
+  height: 90px;
+  margin: 2px;
+  padding: 2px;
 }
 .game-card-ace {
   display: flex;

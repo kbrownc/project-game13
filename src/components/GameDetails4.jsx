@@ -39,6 +39,8 @@ const GameDetails4 = () => {
       j++;
     }
 
+    workGame.row1[0].code = '0';
+
     workGame.remDeck = workDeck;
     setGame(workGame);
   }
@@ -82,22 +84,20 @@ const GameDetails4 = () => {
 
     // Source/Target Logic - Move card(s)
 
-    if (
-      source.droppableId.includes('ROW')
-    ) {
+    if (source.droppableId.includes('ROW')) {
       moveCards(
         source.droppableId.toLowerCase(),
         destination.droppableId.toLowerCase(),
         source.index,
         workGame
-      )
-    } else  if (source.droppableId === 'DISCARD'){
+      );
+    } else if (source.droppableId === 'DISCARD') {
       moveCards(
         source.droppableId.toLowerCase(),
         destination.droppableId.toLowerCase(),
         workGame[source.droppableId.toLowerCase()].length - 1,
         workGame
-      )
+      );
     } else {
       // invalid move (no move of cards)
       workGame.msg = 'Invalid move';
@@ -176,14 +176,25 @@ const GameDetails4 = () => {
                             left: `calc(${index + 4} * ${cardOffset})`,
                           }}
                         >
-                          <img
-                            className="game-card"
-                            src={require(`../cards/${item.code}.png`)}
-                            alt=""
-                            {...provided.draggableProps}
-                            ref={provided.innerRef}
-                            {...provided.dragHandleProps}
-                          />
+                          {item.code !== '0' ? (
+                            <img
+                              className="game-card"
+                              src={require(`../cards/${item.code}.png`)}
+                              alt=""
+                              {...provided.draggableProps}
+                              ref={provided.innerRef}
+                              {...provided.dragHandleProps}
+                            />
+                          ) : (
+                            <img
+                              className="game-card-transparant"
+                              src={require('../cards-other/BACK.png')}
+                              alt=""
+                              {...provided.draggableProps}
+                              ref={provided.innerRef}
+                              {...provided.dragHandleProps}
+                            />
+                          )}
                         </div>
                       )}
                     </Draggable>
