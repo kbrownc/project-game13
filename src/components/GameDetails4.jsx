@@ -40,9 +40,6 @@ const GameDetails4 = () => {
       j++;
     }
 
-    //workGame.row1[0].code = '0';
-    //workGame.row2[0].code = '0';
-
     workGame.remDeck = workDeck;
     setGame(workGame);
   }
